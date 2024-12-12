@@ -1,21 +1,23 @@
-import { Modifier } from "@/types/Modifier";
 import { z } from "zod";
+import type { Attribute } from "@/types/Attribute";
 
-export interface IModifiableBaseOptions {
+export interface IModifiableOptions {
   id?: string;
   name: string;
   description: string;
 }
 
-export abstract class ModifiableBase implements IModifiableBaseOptions {
+export abstract class Modifiable implements IModifiableOptions {
   public id: string;
   public name: string;
   public description: string;
-  public modifiables: ModifiableBase[] = [];
-  public modifiers: Modifier[] = [];
+  public attributes: Attribute[] = [];
 
   protected constructor(
-    baseOpts: IModifiableBaseOptions
+    baseOpts: IModifiableOptions = {
+      name: "",
+      description: "",
+    }
   ) {
     const id = baseOpts.id;
     this.id = id ?? crypto.randomUUID();
@@ -23,7 +25,7 @@ export abstract class ModifiableBase implements IModifiableBaseOptions {
     this.description = baseOpts.description;
   }
 
-  protected static deserializeBase(obj: object): IModifiableBaseOptions | undefined {
+  protected static deserializeBase(obj: object): IModifiableOptions | undefined {
     const BaseSchema = z.object({
       base: z.object({
         id: z.string(),
@@ -31,7 +33,7 @@ export abstract class ModifiableBase implements IModifiableBaseOptions {
         description: z.string(),
       })
     });
-    let item: IModifiableBaseOptions | undefined = undefined;
+    let item: IModifiableOptions | undefined = undefined;
     try {
       const parsed = BaseSchema.parse(obj);
       item = parsed.base;
@@ -41,7 +43,7 @@ export abstract class ModifiableBase implements IModifiableBaseOptions {
     return item;
   }
 
-  protected static baseJSON(base: ModifiableBase): object {
+  protected static baseJSON(base: Modifiable): object {
     return { ...base }
   }
 }

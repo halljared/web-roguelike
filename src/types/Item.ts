@@ -1,12 +1,12 @@
-import { type IModifiableBaseOptions, ModifiableBase } from "@/types/ModifiableBase";
+import { type IModifiableOptions, Modifiable } from "@/types/Modifiable";
 
-export class Item extends ModifiableBase {
-  constructor(baseOpts: IModifiableBaseOptions) {
+export class Item extends Modifiable {
+  constructor(baseOpts?: IModifiableOptions) {
     super(baseOpts);
   }
 
   public static serialize(item: Item): string {
-    const base = ModifiableBase.baseJSON(item);
+    const base = Modifiable.baseJSON(item);
     return JSON.stringify({ base });
   }
 
@@ -14,7 +14,7 @@ export class Item extends ModifiableBase {
     let item: Item | undefined = undefined;
     try {
       const parsed = JSON.parse(input);
-      const baseOpts = ModifiableBase.deserializeBase(parsed);
+      const baseOpts = Modifiable.deserializeBase(parsed);
       if (baseOpts) {
         item = new Item(baseOpts);
       }

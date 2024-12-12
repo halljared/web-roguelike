@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { Item } from "@/types/Item";
 import { useItemStore } from "@/stores/items";
-import { Modifier } from "@/types/Modifier";
+import { Attribute } from "@/types/Attribute";
 
 const { itemId = "" } = defineProps<{ itemId?: string }>();
 const emit = defineEmits(['done'])
@@ -17,13 +17,16 @@ let _item = itemStore.getItemById(itemId);
 if (_item) {
   _item = Item.copy(_item);
 } else {
-  _item = new Item("", "");
-  _item.modifiers.push(new Modifier());
+  _item = new Item();
 }
 let item = ref(_item);
 const isNew = computed(() => {
   return !itemStore.getItemById(item.value.id);
 })
+
+function newAttr() {
+  item.value.attributes.push(new Attribute());
+}
 
 function saveItem() {
   if (isValid.value) {
@@ -35,47 +38,58 @@ function saveItem() {
 </script>
 
 <template>
-  <v-container class="fill-height">
-    <v-responsive
-      class="align-centerfill-height mx-auto"
-      max-width="900"
+  <v-form
+    v-model="isValid"
+    @submit.prevent="saveItem"
+  >
+    <v-text-field
+      v-model="item.name"
+      :rules="rules"
+      label="Name"
+    />
+    <v-text-field
+      v-model="item.description"
+      :rules="rules"
+      label="Description"
+    />
+    <h4>Attributes</h4>
+    <v-divider class="mb-5" />
+    <v-row
+      v-for="attribute in item.attributes"
+      :key="attribute.id"
     >
-      <h3>Item Editor</h3>
-      <v-divider class="mb-5" />
-      <v-form
-        v-model="isValid"
-        @submit.prevent="saveItem"
-      >
-        <v-text-field
-          v-model="item.name"
-          :rules="rules"
-          label="Name"
-        />
-        <v-text-field
-          v-model="item.description"
-          :rules="rules"
-          label="Description"
-        />
-        <h4>Modifiables</h4>
-        <v-divider class="mb-5" />
-        <modifiable-editor-widget />
+      <v-col cols="12">
+        <attribute-editor-widget />
+      </v-col>
+    </v-row>
+    <v-row>
+      <v-col cols="12">
         <v-btn
-          type="submit"
           color="green-lighten-2"
+          @click="newAttr()"
         >
-          {{ isNew ? "Create" : "Update" }}
+          Add Attribute
         </v-btn>
-        <v-btn
-          class="ml-4"
-          color="red-lighten-1"
-          variant="outlined"
-          @click="$emit('done')"
-        >
-          Cancel
-        </v-btn>
-      </v-form>
-    </v-responsive>
-  </v-container>
+      </v-col>
+    </v-row>
+    <v-divider class="my-5" />
+    <div class="mt-3">
+      <v-btn
+        type="submit"
+        color="green-lighten-2"
+      >
+        {{ isNew ? "Create" : "Update" }}
+      </v-btn>
+      <v-btn
+        class="ml-4"
+        color="red-lighten-1"
+        variant="outlined"
+        @click="$emit('done')"
+      >
+        Cancel
+      </v-btn>
+    </div>
+  </v-form>
 </template>
 
 <style scoped lang="sass">
