@@ -1,4 +1,5 @@
-import { type IModifiableOptions, Modifiable } from "@/types/Modifiable";
+import { type IGameObjectOptions } from "@/types/ModifiableGroup";
+import { Modifiable } from "@/types/Modifiable";
 
 export enum ModifierType {
   ADDITIVE = 'ADDITIVE',
@@ -7,9 +8,8 @@ export enum ModifierType {
 
 export class Modifier extends Modifiable {
   constructor(
-    baseOpts?: IModifiableOptions,
+    baseOpts?: IGameObjectOptions,
     public mtype: ModifierType = ModifierType.ADDITIVE,
-    public val: number = 1,
   ) {
     super(baseOpts);
   }

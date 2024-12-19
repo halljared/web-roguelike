@@ -1,12 +1,15 @@
-import { type IModifiableOptions, Modifiable } from "@/types/Modifiable";
+import { type IGameObjectOptions, ModifiableGroup } from "@/types/ModifiableGroup";
+import { Attribute } from "@/types/Attribute";
 
-export class Item extends Modifiable {
-  constructor(baseOpts?: IModifiableOptions) {
+export class Item extends ModifiableGroup {
+  public modifiables: Attribute[] = [];
+
+  constructor(baseOpts?: IGameObjectOptions) {
     super(baseOpts);
   }
 
   public static serialize(item: Item): string {
-    const base = Modifiable.baseJSON(item);
+    const base = ModifiableGroup.baseJSON(item);
     return JSON.stringify({ base });
   }
 
@@ -14,7 +17,7 @@ export class Item extends Modifiable {
     let item: Item | undefined = undefined;
     try {
       const parsed = JSON.parse(input);
-      const baseOpts = Modifiable.deserializeBase(parsed);
+      const baseOpts = ModifiableGroup.deserializeBase(parsed);
       if (baseOpts) {
         item = new Item(baseOpts);
       }

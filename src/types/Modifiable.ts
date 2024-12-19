@@ -1,20 +1,13 @@
-import { z } from "zod";
-import type { Attribute } from "@/types/Attribute";
+import { type IGameObjectOptions } from "@/types/ModifiableGroup";
 
-export interface IModifiableOptions {
-  id?: string;
-  name: string;
-  description: string;
-}
-
-export abstract class Modifiable implements IModifiableOptions {
+export abstract class Modifiable implements IGameObjectOptions {
+  public val: number = 0;
   public id: string;
   public name: string;
   public description: string;
-  public attributes: Attribute[] = [];
 
   protected constructor(
-    baseOpts: IModifiableOptions = {
+    baseOpts: IGameObjectOptions = {
       name: "",
       description: "",
     }
@@ -23,27 +16,5 @@ export abstract class Modifiable implements IModifiableOptions {
     this.id = id ?? crypto.randomUUID();
     this.name = baseOpts.name;
     this.description = baseOpts.description;
-  }
-
-  protected static deserializeBase(obj: object): IModifiableOptions | undefined {
-    const BaseSchema = z.object({
-      base: z.object({
-        id: z.string(),
-        name: z.string(),
-        description: z.string(),
-      })
-    });
-    let item: IModifiableOptions | undefined = undefined;
-    try {
-      const parsed = BaseSchema.parse(obj);
-      item = parsed.base;
-    } catch (e) {
-      console.error(e);
-    }
-    return item;
-  }
-
-  protected static baseJSON(base: Modifiable): object {
-    return { ...base }
   }
 }
