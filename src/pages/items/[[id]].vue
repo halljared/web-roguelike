@@ -1,14 +1,37 @@
 <script setup lang="ts">
 
-import ItemEditor from "@/components/ItemEditor.vue";
+import { useItemStore } from "@/stores/items";
+import { Item } from "@/types/Item";
 
 const router = useRouter();
 const route = useRoute('/items/[[id]]');
-const id = route.params.id;
+const id = route.params.id || "";
+const itemStore = useItemStore();
+let _item = itemStore.getItemById(id);
+if (_item) {
+  _item = Item.copy(_item);
+} else {
+  _item = new Item();
+}
+let item = ref(_item);
+const isValid = ref(false);
 
-function done() {
+const isNew = computed(() => {
+  return !itemStore.getItemById(item.value.id);
+})
+
+function save() {
+  if (isValid.value) {
+    itemStore.setItem(item.value);
+    item = ref(Item.copy(item.value));
+    router.back();
+  }
+}
+
+function cancel() {
   router.back();
 }
+
 </script>
 
 <template>
@@ -19,10 +42,29 @@ function done() {
     >
       <h3>Item Editor</h3>
       <v-divider class="mb-5" />
-      <ItemEditor
-        :item-id="id"
-        @done="done"
-      />
+      <v-form
+        v-model="isValid"
+        @submit.prevent="save"
+      >
+        <ItemEditor :item="item" />
+        <v-divider class="mb-5" />
+        <div class="mt-3">
+          <v-btn
+            type="submit"
+            color="green-lighten-2"
+          >
+            {{ isNew ? "Create" : "Update" }}
+          </v-btn>
+          <v-btn
+            class="ml-4"
+            color="red-lighten-1"
+            variant="outlined"
+            @click="cancel"
+          >
+            Cancel
+          </v-btn>
+        </div>
+      </v-form>
     </v-responsive>
   </v-container>
 </template>

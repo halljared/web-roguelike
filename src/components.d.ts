@@ -9,8 +9,9 @@ declare module 'vue' {
   export interface GlobalComponents {
     AppFooter: typeof import('./components/AppFooter.vue')['default']
     AttributeEditorWidget: typeof import('./components/items/AttributeEditorWidget.vue')['default']
+    GameObjectEditor: typeof import('./components/GameObjectEditor.vue')['default']
     HelloWorld: typeof import('./components/HelloWorld.vue')['default']
-    ItemEditor: typeof import('./components/ItemEditor.vue')['default']
+    ItemEditor: typeof import('./components/items/ItemEditor.vue')['default']
     ItemList: typeof import('./components/items/ItemList.vue')['default']
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']

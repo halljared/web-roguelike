@@ -1,5 +1,6 @@
 import { z } from "zod";
-import { Modifiable } from "@/types/Modifiable";
+import type { Attribute } from "@/types/Attribute";
+import type { Modifier } from "@/types/Modifier";
 
 export interface IGameObjectOptions {
   id?: string;
@@ -11,7 +12,8 @@ export abstract class ModifiableGroup implements IGameObjectOptions {
   public id: string;
   public name: string;
   public description: string;
-  public abstract modifiables: Modifiable[];
+  public abstract attributes: Attribute[];
+  public abstract modifiers: Modifier[];
 
   protected constructor(
     baseOpts: IGameObjectOptions = {
