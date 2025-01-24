@@ -1,9 +1,9 @@
-import { type IGameObjectOptions, ModifiableGroup } from "@/types/ModifiableGroup";
+import { type IModifiableGroupOptions, ModifiableGroup } from "@/types/ModifiableGroup";
 import { Attribute } from "@/types/Attribute";
 import { Modifier } from "@/types/Modifier";
 
 export class Item extends ModifiableGroup {
-  constructor(baseOpts?: IGameObjectOptions) {
+  constructor(baseOpts?: IModifiableGroupOptions) {
     super(baseOpts);
   }
 
@@ -18,10 +18,13 @@ export class Item extends ModifiableGroup {
       const parsed = JSON.parse(input);
       const deserializedItem = ModifiableGroup.deserializeBase(parsed);
       if (deserializedItem) {
-        const baseOpts = deserializedItem.base;
+        const base = deserializedItem.base;
+        const baseOpts = {
+          ...base, // Copy all properties from deserializedItem.base
+          attributes: base.attributes.map(attr => new Attribute(attr)),
+          modifiers: base.modifiers.map(mod => new Modifier(mod)),
+        };
         item = new Item(baseOpts);
-        item.attributes = baseOpts.attributes.map(attr => new Attribute(attr));
-        item.modifiers = baseOpts.modifiers.map(mod => new Modifier(mod));
       }
     } catch (e) {
       console.error(e);

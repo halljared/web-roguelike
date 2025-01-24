@@ -1,8 +1,7 @@
 import { z } from "zod";
 import type { Attribute } from "@/types/Attribute";
-import type { IModifierConstructorOptions, Modifier } from "@/types/Modifier";
-import { type IModifiableConstructorOptions, ModifiableTag } from "@/types/Modifiable";
-import { ModifierType } from "@/types/Modifier";
+import { type IModifierOptions, type Modifier, ModifierType } from "@/types/Modifier";
+import { type IModifiableOptions, ModifiableTag } from "@/types/Modifiable";
 
 export interface IGameObjectOptions {
   id?: string;
@@ -10,45 +9,61 @@ export interface IGameObjectOptions {
   description: string;
 }
 
-export interface IModifiableGroupOptions {
-  base: IGameObjectOptions & {
-    attributes: IModifiableConstructorOptions[];
-    modifiers: IModifierConstructorOptions[];
+interface IRequiredGameObjectOptions
+  extends Omit<IGameObjectOptions, "id"> {
+  id: string;
+}
+
+export interface IModifiableGroupDeserialized {
+  base: IRequiredGameObjectOptions & {
+    attributes: (IRequiredGameObjectOptions & IModifiableOptions)[];
+    modifiers: (IRequiredGameObjectOptions & IModifiableOptions & IModifierOptions)[];
   };
+}
+
+export interface IModifiableGroupOptions extends IGameObjectOptions {
+  attributes: Attribute[];
+  modifiers: Modifier[];
 }
 
 export abstract class ModifiableGroup implements IGameObjectOptions {
   public id: string;
   public name: string;
   public description: string;
-  public attributes: Attribute[] = [];
-  public modifiers: Modifier[] = [];
+  public attributes: Attribute[];
+  public modifiers: Modifier[];
 
-  // TODO: Refactor this ctor to work with IModifiableGroupOptions, not just IGameObjetOptions
   protected constructor(
-    baseOpts: IGameObjectOptions = {
+    baseOpts: IModifiableGroupOptions = {
       name: "",
       description: "",
+      attributes: [],
+      modifiers: [],
     }
   ) {
-    const id = baseOpts.id;
+    const { id, name, description, attributes, modifiers } = baseOpts;
+
     this.id = id ?? crypto.randomUUID();
-    this.name = baseOpts.name;
-    this.description = baseOpts.description;
+    this.name = name;
+    this.description = description;
+    this.attributes = attributes;
+    this.modifiers = modifiers;
   }
 
-  protected static deserializeBase(obj: object): IModifiableGroupOptions | undefined {
+  protected static deserializeBase(obj: object): IModifiableGroupDeserialized | undefined {
     const IGameObjectOptionsSchema = z.object({
         id: z.string(),
         name: z.string(),
         description: z.string(),
       }),
-      AttributeSchema = IGameObjectOptionsSchema.extend({
-        tags: z.array(z.nativeEnum(ModifiableTag)),
-        baseVal: z.number(),
-      }), ModifierSchema = IGameObjectOptionsSchema.extend({
-        tags: z.array(z.nativeEnum(ModifiableTag)),
-        baseVal: z.number(),
+      IModifiableOptionsSchema = IGameObjectOptionsSchema.extend(
+        {
+          tags: z.array(z.nativeEnum(ModifiableTag)),
+          baseVal: z.number(),
+        }
+      ),
+      AttributeSchema = IModifiableOptionsSchema,
+      ModifierSchema = IModifiableOptionsSchema.extend({
         modifierType: z.nativeEnum(ModifierType),
         target: z.nativeEnum(ModifiableTag),
       }), BaseSchema = IGameObjectOptionsSchema.extend({
@@ -58,7 +73,7 @@ export abstract class ModifiableGroup implements IGameObjectOptions {
         base: BaseSchema,
       });
 
-    let item: IModifiableGroupOptions | undefined = undefined;
+    let item: IModifiableGroupDeserialized | undefined = undefined;
     try {
       item = ModifiableGroupSchema.parse(obj);
     } catch (e) {
