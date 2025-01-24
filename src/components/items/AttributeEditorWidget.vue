@@ -4,7 +4,7 @@ import { Attribute } from "@/types/Attribute";
 
 const attribute = defineModel('attribute', {
   type: Attribute,
-  default: new Attribute({ description: "", name: "" })
+  default: new Attribute()
 });
 </script>
 

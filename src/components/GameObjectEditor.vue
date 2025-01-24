@@ -23,30 +23,8 @@ const rules = [
   />
   <v-text-field
     v-model="gameObjectOptions.description"
-    :rules="rules"
     label="Description"
   />
-  <slot />
-  <!--  <h4>Attributes</h4>-->
-  <!--  <v-divider class="mb-5" />-->
-  <!--  <v-row-->
-  <!--    v-for="(attribute, index) in item.modifiables"-->
-  <!--    :key="attribute.id"-->
-  <!--  >-->
-  <!--    <v-col cols="12">-->
-  <!--      <modifiable-editor-widget v-model="item.modifiables[index]" />-->
-  <!--    </v-col>-->
-  <!--  </v-row>-->
-  <!--  <v-row>-->
-  <!--    <v-col cols="12">-->
-  <!--      <v-btn-->
-  <!--        color="green-lighten-2"-->
-  <!--        @click="newAttr()"-->
-  <!--      >-->
-  <!--        Add Attribute-->
-  <!--      </v-btn>-->
-  <!--    </v-col>-->
-  <!--  </v-row>-->
 </template>
 
 <style scoped lang="sass">

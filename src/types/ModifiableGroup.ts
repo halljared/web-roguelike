@@ -1,7 +1,7 @@
 import { z } from "zod";
 import type { Attribute } from "@/types/Attribute";
-import type { Modifier } from "@/types/Modifier";
-import { ModifiableTag } from "@/types/Modifiable";
+import type { IModifierConstructorOptions, Modifier } from "@/types/Modifier";
+import { type IModifiableConstructorOptions, ModifiableTag } from "@/types/Modifiable";
 import { ModifierType } from "@/types/Modifier";
 
 export interface IGameObjectOptions {
@@ -12,16 +12,8 @@ export interface IGameObjectOptions {
 
 export interface IModifiableGroupOptions {
   base: IGameObjectOptions & {
-    attributes?: (IGameObjectOptions & {
-      tags: ModifiableTag[];
-      val: number;
-    })[];
-    modifiers?: (IGameObjectOptions & {
-      tags: ModifiableTag[];
-      val: number;
-      mtype: ModifierType;
-      target: ModifiableTag;
-    })[];
+    attributes: IModifiableConstructorOptions[];
+    modifiers: IModifierConstructorOptions[];
   };
 }
 
@@ -32,6 +24,7 @@ export abstract class ModifiableGroup implements IGameObjectOptions {
   public attributes: Attribute[] = [];
   public modifiers: Modifier[] = [];
 
+  // TODO: Refactor this ctor to work with IModifiableGroupOptions, not just IGameObjetOptions
   protected constructor(
     baseOpts: IGameObjectOptions = {
       name: "",
@@ -52,15 +45,15 @@ export abstract class ModifiableGroup implements IGameObjectOptions {
       }),
       AttributeSchema = IGameObjectOptionsSchema.extend({
         tags: z.array(z.nativeEnum(ModifiableTag)),
-        val: z.number(),
+        baseVal: z.number(),
       }), ModifierSchema = IGameObjectOptionsSchema.extend({
         tags: z.array(z.nativeEnum(ModifiableTag)),
-        val: z.number(),
-        mtype: z.nativeEnum(ModifierType),
+        baseVal: z.number(),
+        modifierType: z.nativeEnum(ModifierType),
         target: z.nativeEnum(ModifiableTag),
       }), BaseSchema = IGameObjectOptionsSchema.extend({
-        attributes: z.array(AttributeSchema).optional(),
-        modifiers: z.array(ModifierSchema).optional(),
+        attributes: z.array(AttributeSchema),
+        modifiers: z.array(ModifierSchema),
       }), ModifiableGroupSchema = z.object({
         base: BaseSchema,
       });

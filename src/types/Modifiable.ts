@@ -6,29 +6,35 @@ export enum ModifiableTag {
 }
 
 export interface IModifiableOptions {
-  tags: ModifiableTag[]
+  tags: ModifiableTag[],
+  baseVal: number
 }
 
-export abstract class Modifiable implements IGameObjectOptions {
-  public val: number = 0;
+export interface IModifiableConstructorOptions extends Partial<IGameObjectOptions>, Partial<IModifiableOptions> {
+}
+
+
+export abstract class Modifiable implements IGameObjectOptions, IModifiableOptions {
   public id: string;
   public name: string;
   public description: string;
+  public baseVal: number;
   public tags: ModifiableTag[];
 
-  protected constructor(
-    baseOpts: IGameObjectOptions = {
-      name: "",
-      description: "",
-    },
-    modifiableOpts: IModifiableOptions = {
-      tags: []
-    },
-  ) {
-    const id = baseOpts.id;
-    this.id = id ?? crypto.randomUUID();
-    this.name = baseOpts.name;
-    this.description = baseOpts.description;
-    this.tags = modifiableOpts.tags;
+  protected constructor(options: IModifiableConstructorOptions = {}) {
+    const {
+      id = crypto.randomUUID(),
+      name = "",
+      description = "",
+      baseVal = 0,
+      tags = []
+    } = options;
+
+    this.id = id;
+    this.name = name;
+    this.description = description;
+    this.baseVal = baseVal;
+    this.tags = tags;
   }
+
 }

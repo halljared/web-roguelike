@@ -1,4 +1,6 @@
 import { type IGameObjectOptions, ModifiableGroup } from "@/types/ModifiableGroup";
+import { Attribute } from "@/types/Attribute";
+import { Modifier } from "@/types/Modifier";
 
 export class Item extends ModifiableGroup {
   constructor(baseOpts?: IGameObjectOptions) {
@@ -14,9 +16,12 @@ export class Item extends ModifiableGroup {
     let item: Item | undefined = undefined;
     try {
       const parsed = JSON.parse(input);
-      const baseOpts = ModifiableGroup.deserializeBase(parsed);
-      if (baseOpts) {
-        item = new Item(baseOpts.base);
+      const deserializedItem = ModifiableGroup.deserializeBase(parsed);
+      if (deserializedItem) {
+        const baseOpts = deserializedItem.base;
+        item = new Item(baseOpts);
+        item.attributes = baseOpts.attributes.map(attr => new Attribute(attr));
+        item.modifiers = baseOpts.modifiers.map(mod => new Modifier(mod));
       }
     } catch (e) {
       console.error(e);

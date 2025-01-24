@@ -47,7 +47,7 @@ function cancel() {
         @submit.prevent="save"
       >
         <ItemEditor :item="item" />
-        <v-divider class="mb-5" />
+        <v-divider class="my-3" />
         <div class="mt-3">
           <v-btn
             type="submit"

@@ -13,6 +13,7 @@ declare module 'vue' {
     HelloWorld: typeof import('./components/HelloWorld.vue')['default']
     ItemEditor: typeof import('./components/items/ItemEditor.vue')['default']
     ItemList: typeof import('./components/items/ItemList.vue')['default']
+    ModifierEditorWidget: typeof import('./components/items/ModifierEditorWidget.vue')['default']
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']
   }
