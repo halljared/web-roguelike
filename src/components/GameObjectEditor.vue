@@ -1,5 +1,6 @@
 <script setup lang="ts">
-import type { IGameObjectOptions } from "@/types/ModifiableGroup";
+
+import type { IGameObjectOptions } from "@/types/IGameObjectOptions";
 
 const gameObjectOptions = defineModel('object', {
   type: Object as PropType<IGameObjectOptions>,

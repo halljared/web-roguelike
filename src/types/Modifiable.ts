@@ -1,4 +1,4 @@
-import { type IGameObjectOptions } from "@/types/ModifiableGroup";
+import type { IGameObjectOptions } from "@/types/IGameObjectOptions";
 
 export enum ModifiableTag {
   ATTRIBUTE = "ATTRIBUTE",
@@ -12,7 +12,6 @@ export interface IModifiableOptions {
 
 export interface IModifiableConstructorOptions extends Partial<IGameObjectOptions>, Partial<IModifiableOptions> {
 }
-
 
 export abstract class Modifiable implements IGameObjectOptions, IModifiableOptions {
   public id: string;
@@ -37,4 +36,10 @@ export abstract class Modifiable implements IGameObjectOptions, IModifiableOptio
     this.tags = tags;
   }
 
+}
+
+export class ConcreteModifiable extends Modifiable {
+  constructor(options: IModifiableConstructorOptions = {}) {
+    super(options);
+  }
 }

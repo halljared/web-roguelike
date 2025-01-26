@@ -2,12 +2,7 @@ import { z } from "zod";
 import type { Attribute } from "@/types/Attribute";
 import { type IModifierOptions, type Modifier, ModifierType } from "@/types/Modifier";
 import { type IModifiableOptions, ModifiableTag } from "@/types/Modifiable";
-
-export interface IGameObjectOptions {
-  id?: string;
-  name: string;
-  description: string;
-}
+import type { IGameObjectOptions } from "@/types/IGameObjectOptions";
 
 interface IRequiredGameObjectOptions
   extends Omit<IGameObjectOptions, "id"> {
@@ -81,7 +76,6 @@ export abstract class ModifiableGroup implements IGameObjectOptions {
     }
     return item;
   }
-
 
   protected static baseJSON(base: ModifiableGroup): object {
     return { ...base }

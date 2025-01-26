@@ -12,6 +12,7 @@ const modifier = defineModel('modifier', {
   <h4>Modifier</h4>
   <v-divider class="mb-3" />
   <game-object-editor :object="modifier" />
+  <modifiable-editor-widget :modifiable="modifier" />
 </template>
 
 <style scoped lang="sass">

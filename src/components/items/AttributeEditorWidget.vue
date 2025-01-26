@@ -12,6 +12,7 @@ const attribute = defineModel('attribute', {
   <h4>Attribute</h4>
   <v-divider class="mb-3" />
   <game-object-editor :object="attribute" />
+  <modifiable-editor-widget :modifiable="attribute" />
 </template>
 
 <style scoped lang="sass">
