@@ -37,9 +37,3 @@ export abstract class Modifiable implements IGameObjectOptions, IModifiableOptio
   }
 
 }
-
-export class ConcreteModifiable extends Modifiable {
-  constructor(options: IModifiableConstructorOptions = {}) {
-    super(options);
-  }
-}

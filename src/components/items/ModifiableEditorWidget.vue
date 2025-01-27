@@ -1,11 +1,10 @@
 <script setup lang="ts">
 import {
-  ConcreteModifiable,
+  Modifiable,
   ModifiableTag
 } from "@/types/Modifiable";
 
-const modifiable = defineModel('modifiable', {
-  type: ConcreteModifiable,
+const modifiable = defineModel<Modifiable>('modifiable', {
   required: true,
 });
 </script>
