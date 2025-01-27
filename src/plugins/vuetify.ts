@@ -16,4 +16,13 @@ export default createVuetify({
   theme: {
     defaultTheme: 'dark',
   },
+  defaults: {
+    VTextField: {
+      hideDetails: 'auto', // Set 'hide-details' to auto for all v-text-field components
+    },
+    VSelect: {
+      hideDetails: 'auto', // Set 'hide-details' to auto for all v-text-field components
+    }
+  },
+
 })

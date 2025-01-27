@@ -16,7 +16,6 @@ const modifiable = defineModel<Modifiable>('modifiable', {
         v-model.number="modifiable.baseVal"
         label="Base Value"
         outlined
-        class="mb-3"
         type="number"
         step="1"
       />

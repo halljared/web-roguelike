@@ -17,15 +17,23 @@ const rules = [
 </script>
 
 <template>
-  <v-text-field
-    v-model="gameObjectOptions.name"
-    :rules="rules"
-    label="Name"
-  />
-  <v-text-field
-    v-model="gameObjectOptions.description"
-    label="Description"
-  />
+  <v-row>
+    <v-col>
+      <v-text-field
+        v-model="gameObjectOptions.name"
+        :rules="rules"
+        label="Name"
+      />
+    </v-col>
+  </v-row>
+  <v-row>
+    <v-col>
+      <v-text-field
+        v-model="gameObjectOptions.description"
+        label="Description"
+      />
+    </v-col>
+  </v-row>
 </template>
 
 <style scoped lang="sass">

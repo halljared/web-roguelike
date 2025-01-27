@@ -19,8 +19,10 @@ function newModifier() {
 
 <template>
   <game-object-editor :object="item" />
-  <h4>Attributes</h4>
-  <v-divider :class="{ 'mb-6': item.attributes.length > 0 }" />
+  <h4 class="mt-3">
+    Attributes
+  </h4>
+  <v-divider class="mb-3" />
   <v-row
     v-for="(attribute, index) in item.attributes"
     :key="index"
@@ -28,12 +30,11 @@ function newModifier() {
     <v-col
       cols="11"
       offset="1"
-      class="py-0"
     >
       <attribute-editor-widget :attribute="attribute" />
     </v-col>
   </v-row>
-  <v-row class="mt-0">
+  <v-row>
     <v-col offset="1">
       <v-btn
         type="button"
@@ -47,7 +48,7 @@ function newModifier() {
   <h4 class="mt-3">
     Modifiers
   </h4>
-  <v-divider :class="{ 'mb-6': item.modifiers.length > 0 }" />
+  <v-divider class="mb-3" />
   <v-row
     v-for="(modifier, index) in item.modifiers"
     :key="index"
@@ -55,12 +56,11 @@ function newModifier() {
     <v-col
       cols="11"
       offset="1"
-      class="py-0"
     >
       <modifier-editor-widget :modifier="modifier" />
     </v-col>
   </v-row>
-  <v-row class="mt-0">
+  <v-row>
     <v-col offset="1">
       <v-btn
         type="button"
