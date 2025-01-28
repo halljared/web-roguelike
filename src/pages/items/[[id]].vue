@@ -1,7 +1,7 @@
 <script setup lang="ts">
 
 import { useItemStore } from "@/stores/items";
-import { Item } from "@/types/Item";
+import { Item } from "@/models/Item";
 
 const router = useRouter();
 const route = useRoute('/items/[[id]]');
@@ -9,7 +9,7 @@ const id = route.params.id || "";
 const itemStore = useItemStore();
 let _item = itemStore.getItemById(id);
 if (_item) {
-  _item = Item.copy(_item);
+  _item = Item.copy(_item, true);
 } else {
   _item = new Item();
 }

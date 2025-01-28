@@ -1,6 +1,6 @@
-import { type IModifiableGroupOptions, ModifiableGroup } from "@/types/ModifiableGroup";
-import { Attribute } from "@/types/Attribute";
-import { Modifier } from "@/types/Modifier";
+import { type IModifiableGroupOptions, ModifiableGroup } from "@/models/ModifiableGroup";
+import { Attribute } from "@/models/Attribute";
+import { Modifier } from "@/models/Modifier";
 
 export class Item extends ModifiableGroup {
   constructor(baseOpts?: IModifiableGroupOptions) {
@@ -32,7 +32,11 @@ export class Item extends ModifiableGroup {
     return item;
   }
 
-  public static copy(item: Item): Item {
-    return Item.deserialize(Item.serialize(item)) as Item;
+  public static copy(item: Item, preserveId?: boolean): Item {
+    const copiedItem = Item.deserialize(Item.serialize(item)) as Item;
+    if (!preserveId) {
+      copiedItem.id = crypto.randomUUID();
+    }
+    return copiedItem;
   }
 }

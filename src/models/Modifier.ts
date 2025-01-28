@@ -2,7 +2,7 @@ import {
   type IModifiableConstructorOptions,
   Modifiable,
   ModifiableTag
-} from "@/types/Modifiable";
+} from "@/models/Modifiable";
 
 export enum ModifierType {
   ADDITIVE = 'ADDITIVE',

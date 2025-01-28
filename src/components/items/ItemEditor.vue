@@ -1,7 +1,7 @@
 <script setup lang="ts">
-import { Item } from "@/types/Item";
-import { Attribute } from "@/types/Attribute";
-import { Modifier } from "@/types/Modifier";
+import { Item } from "@/models/Item";
+import { Attribute } from "@/models/Attribute";
+import { Modifier } from "@/models/Modifier";
 
 const item = defineModel('item', {
   type: Item,

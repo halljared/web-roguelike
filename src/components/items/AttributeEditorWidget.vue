@@ -1,6 +1,6 @@
 <script setup lang="ts">
 
-import { Attribute } from "@/types/Attribute";
+import { Attribute } from "@/models/Attribute";
 
 const attribute = defineModel('attribute', {
   type: Attribute,

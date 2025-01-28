@@ -1,6 +1,6 @@
 import { defineStore } from 'pinia';
 import { ref, computed } from 'vue';
-import type { Item } from '@/types/Item'; // Adjust the path as necessary
+import { Item } from '@/models/Item';
 
 export const useItemStore = defineStore('itemStore', () => {
   // State: Store items in a Map for quick access by id

@@ -1,4 +1,4 @@
-import type { IGameObjectOptions } from "@/types/IGameObjectOptions";
+import type { IGameObjectOptions } from "@/models/IGameObjectOptions";
 
 export enum ModifiableTag {
   ATTRIBUTE = "ATTRIBUTE",

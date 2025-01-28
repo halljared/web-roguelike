@@ -1,4 +1,4 @@
-import { type IModifiableConstructorOptions, Modifiable } from "@/types/Modifiable";
+import { type IModifiableConstructorOptions, Modifiable } from "@/models/Modifiable";
 
 export class Attribute extends Modifiable {
   constructor(options?: IModifiableConstructorOptions) {

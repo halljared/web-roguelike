@@ -2,7 +2,7 @@
 import {
   Modifiable,
   ModifiableTag
-} from "@/types/Modifiable";
+} from "@/models/Modifiable";
 
 const modifiable = defineModel<Modifiable>('modifiable', {
   required: true,

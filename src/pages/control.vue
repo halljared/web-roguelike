@@ -23,7 +23,7 @@
               custom
             >
               <v-btn
-                class="my-3"
+                class="mb-3"
                 color="grey-lighten-1"
                 block
                 @click="navigate"
@@ -37,12 +37,28 @@
               custom
             >
               <v-btn
+                class="mb-3"
                 color="green-lighten-2"
                 elevation="2"
                 block
                 @click="navigate"
               >
                 Create
+              </v-btn>
+            </router-link>
+            <router-link
+              v-slot="{ navigate }"
+              to="/playground"
+              custom
+            >
+              <v-btn
+                class="mb-3"
+                color="blue-lighten-2"
+                elevation="2"
+                block
+                @click="navigate"
+              >
+                Playground
               </v-btn>
             </router-link>
           </v-sheet>

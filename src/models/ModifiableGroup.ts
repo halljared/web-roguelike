@@ -1,8 +1,8 @@
 import { z } from "zod";
-import type { Attribute } from "@/types/Attribute";
-import { type IModifierOptions, type Modifier, ModifierType } from "@/types/Modifier";
-import { type IModifiableOptions, ModifiableTag } from "@/types/Modifiable";
-import type { IGameObjectOptions } from "@/types/IGameObjectOptions";
+import type { Attribute } from "@/models/Attribute";
+import { type IModifierOptions, type Modifier, ModifierType } from "@/models/Modifier";
+import { type IModifiableOptions, ModifiableTag } from "@/models/Modifiable";
+import type { IGameObjectOptions } from "@/models/IGameObjectOptions";
 
 interface IRequiredGameObjectOptions
   extends Omit<IGameObjectOptions, "id"> {
