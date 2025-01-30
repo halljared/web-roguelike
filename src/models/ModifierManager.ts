@@ -1,5 +1,5 @@
-import type { Modifier } from "@/types/Modifier";
-import type { Modifiable } from "@/types/Modifiable";
+import type { Modifier } from "@/models/Modifier";
+import type { Modifiable } from "@/models/Modifiable";
 
 export type ConditionFunction = (modifiable: Modifiable, modifier: Modifier) => boolean;
 

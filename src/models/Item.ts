@@ -1,6 +1,10 @@
-import { type IModifiableGroupOptions, ModifiableGroup } from "@/models/ModifiableGroup";
+import {
+  type IModifiableGroupOptions,
+  ModifiableGroup,
+} from "@/models/ModifiableGroup";
 import { Attribute } from "@/models/Attribute";
 import { Modifier } from "@/models/Modifier";
+import type { Modifiable } from "./Modifiable";
 
 export class Item extends ModifiableGroup {
   constructor(baseOpts?: IModifiableGroupOptions) {
@@ -21,8 +25,8 @@ export class Item extends ModifiableGroup {
         const base = deserializedItem.base;
         const baseOpts = {
           ...base, // Copy all properties from deserializedItem.base
-          attributes: base.attributes.map(attr => new Attribute(attr)),
-          modifiers: base.modifiers.map(mod => new Modifier(mod)),
+          attributes: base.attributes.map((attr) => new Attribute(attr)),
+          modifiers: base.modifiers.map((mod) => new Modifier(mod)),
         };
         item = new Item(baseOpts);
       }
@@ -38,5 +42,9 @@ export class Item extends ModifiableGroup {
       copiedItem.id = crypto.randomUUID();
     }
     return copiedItem;
+  }
+
+  public getModifiables(): Modifiable[] {
+    return [...this.attributes, ...this.modifiers];
   }
 }

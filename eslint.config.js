@@ -31,6 +31,12 @@ export default [
         },
       ],
       'vue/multi-word-component-names': 'off',
+      'object-property-newline': [
+        'warn',
+        {
+          allowAllPropertiesOnSameLine: false
+        }
+      ]
     }
   }
 ]

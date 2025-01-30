@@ -1,14 +1,18 @@
-import { defineStore } from 'pinia';
-import { ref, computed } from 'vue';
-import type { Item } from '@/models/Item';
-import { PlaygroundModel } from '@/models/PlaygroundModel';
+import { defineStore } from "pinia";
+import { ref, computed } from "vue";
+import type { Item } from "@/models/Item";
+import type { Modifier } from "@/models/Modifier";
+import { PlaygroundModel } from "@/models/PlaygroundModel";
 
-export const usePlaygroundStore = defineStore('playgroundStore', () => {
+export const usePlaygroundStore = defineStore("playgroundStore", () => {
   // State
   const model = ref(new PlaygroundModel());
 
   // Getters
   const selectedCopies = computed(() => model.value.selectedCopies);
+  const modifiedCopies = computed(() =>
+    selectedCopies.value.filter((copy) => getModifiedBy(copy).size > 0)
+  );
 
   // Actions
   function addCopy(item: Item): void {
@@ -23,10 +27,21 @@ export const usePlaygroundStore = defineStore('playgroundStore', () => {
     model.value.clearCopies();
   }
 
+  function getItemModifiers(item: Item): Set<Modifier> {
+    return model.value.getModifiedBy(item);
+  }
+
+  function getModifiedBy(item: Item): Set<Modifier> {
+    return model.value.getModifiedBy(item);
+  }
+
   return {
     selectedCopies,
+    modifiedCopies,
     addCopy,
     removeCopy,
     clearCopies,
+    getItemModifiers,
+    getModifiedBy,
   };
 });

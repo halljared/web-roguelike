@@ -13,12 +13,9 @@ function copyItem(item: Item) {
 </script>
 
 <template>
-  <v-container
-    id="playground"
-    class="fill-height"
-  >
+  <v-container id="playground">
     <v-row>
-      <v-col cols="6">
+      <v-col>
         <v-sheet
           class="pa-4"
           rounded
@@ -27,56 +24,52 @@ function copyItem(item: Item) {
           <h2>Available Items</h2>
           <v-divider class="mb-4" />
 
-          <v-list
-            density="compact"
-            max-width="300"
+          <div
+            class="d-flex flex-column"
+            style="max-width: 300px"
           >
-            <v-list-item
+            <v-card
               v-for="item in items"
               :key="item.id"
               variant="elevated"
-              bg-color="secondary"
+              color="secondary"
               elevation="2"
-              class="mb-2"
+              class="mb-2 pa-2"
             >
-              <template #prepend>
+              <div class="d-flex align-center">
                 <v-icon
                   icon="mdi-cube-outline"
                   class="mr-2"
                 />
-              </template>
 
-              <template #title>
-                <div class="d-flex align-center">
-                  <span class="font-weight-medium">{{ item.name }}</span>
-                </div>
-              </template>
+                <span class="font-weight-medium">{{ item.name }}</span>
 
-              <template #append>
+                <v-spacer />
+
                 <v-btn
                   icon="mdi-pencil"
                   size="small"
                   :to="`/items/${item.id}`"
+                  class="mr-2"
                 />
                 <v-btn
-                  icon="mdi-content-copy"
+                  icon="mdi-plus"
                   size="small"
-                  class="mr-2"
                   @click="copyItem(item)"
                 />
-              </template>
-            </v-list-item>
-          </v-list>
+              </div>
+            </v-card>
+          </div>
         </v-sheet>
       </v-col>
 
-      <v-col cols="6">
+      <v-col>
         <v-sheet
           class="pa-4"
           rounded
           elevation="2"
         >
-          <h2>Copied Items</h2>
+          <h2>Active Items</h2>
           <v-divider class="mb-4" />
 
           <v-list v-if="playgroundStore.selectedCopies.length">
@@ -125,6 +118,37 @@ function copyItem(item: Item) {
             class="text-subtitle-1"
           >
             No copies made yet
+          </p>
+        </v-sheet>
+      </v-col>
+    </v-row>
+    <v-row>
+      <v-col>
+        <v-sheet
+          class="pa-4"
+          rounded
+        >
+          <h2>Modified Items</h2>
+          <v-list v-if="playgroundStore.selectedCopies.length">
+            <v-list-item
+              v-for="copy in playgroundStore.selectedCopies"
+              :key="copy.id"
+              hover
+              variant="elevated"
+              bg-color="warning"
+              class="mb-2"
+            >
+              <v-list-item-title>{{ copy.name }}</v-list-item-title>
+              <v-list-item-subtitle>
+                This item is being modified by {{ playgroundStore.getItemModifiers(copy).size }} modifier(s)
+              </v-list-item-subtitle>
+            </v-list-item>
+          </v-list>
+          <p
+            v-else
+            class="text-subtitle-1"
+          >
+            No modified items
           </p>
         </v-sheet>
       </v-col>
