@@ -34,7 +34,7 @@ export default [
       'object-property-newline': [
         'warn',
         {
-          allowAllPropertiesOnSameLine: false
+          allowMultiplePropertiesPerLine: 2
         }
       ]
     }
