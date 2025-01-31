@@ -43,8 +43,4 @@ export class Item extends ModifiableGroup {
     }
     return copiedItem;
   }
-
-  public getModifiables(): Modifiable[] {
-    return [...this.attributes, ...this.modifiers];
-  }
 }
