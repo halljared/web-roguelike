@@ -34,6 +34,13 @@ export class PlaygroundModel {
   removeCopy(itemId: string): void {
     const index = this._selectedCopies.findIndex((copy) => copy.id === itemId);
     if (index !== -1) {
+      const copy = this._selectedCopies[index];
+      copy.getModifiables().forEach((modifiable) => {
+        this._modifierManager.removeModifiable(modifiable);
+      });
+      copy.modifiers.forEach((modifier) => {
+        this._modifierManager.removeModifier(modifier);
+      });
       this._selectedCopies.splice(index, 1);
     }
   }

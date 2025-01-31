@@ -1,11 +1,17 @@
 import type { Modifier } from "@/models/Modifier";
 import type { Modifiable } from "@/models/Modifiable";
 
-export type ConditionFunction = (modifiable: Modifiable, modifier: Modifier) => boolean;
+export type ConditionFunction = (
+  modifiable: Modifiable,
+  modifier: Modifier
+) => boolean;
 
-const defaultMatcher: ConditionFunction = (modifiable: Modifiable, modifier: Modifier): boolean => {
-  return modifiable.tags.some(tag => tag === modifier.target);
-}
+const defaultMatcher: ConditionFunction = (
+  modifiable: Modifiable,
+  modifier: Modifier
+): boolean => {
+  return modifiable.tags.some((tag) => tag === modifier.target);
+};
 
 export class ModifierManager {
   // Internal maps for bidirectional relationships
@@ -25,6 +31,32 @@ export class ModifierManager {
     this.allModifiables = new Set();
     this.allModifiers = new Set();
     this.matchers = [defaultMatcher];
+  }
+
+  removeModifiable(modifiable: Modifiable): void {
+    // Remove all relationships involving this modifiable
+    const modifiers = this.modifiableToModifiers.get(modifiable);
+    if (modifiers) {
+      modifiers.forEach((modifier) => {
+        this.removeRelationship(modifiable, modifier);
+      });
+    }
+
+    // Remove from master set
+    this.allModifiables.delete(modifiable);
+  }
+
+  removeModifier(modifier: Modifier): void {
+    // Remove all relationships involving this modifier
+    const modifiables = this.modifierToModifiables.get(modifier);
+    if (modifiables) {
+      modifiables.forEach((modifiable) => {
+        this.removeRelationship(modifiable, modifier);
+      });
+    }
+
+    // Remove from master set
+    this.allModifiers.delete(modifier);
   }
 
   registerModifiable(modifiable: Modifiable): void {
@@ -48,7 +80,7 @@ export class ModifierManager {
   }
 
   matches(modifiable: Modifiable, modifier: Modifier): boolean {
-    return this.matchers.every(matcher => matcher(modifiable, modifier));
+    return this.matchers.every((matcher) => matcher(modifiable, modifier));
   }
 
   // Add a relationship between a modifiable and a modifier

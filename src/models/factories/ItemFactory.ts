@@ -11,6 +11,11 @@ export class ItemFactory {
     const { modifierManager, deep = false } = options;
     const newItem = Item.copy(item, deep);
 
+    // Set the parent ID for all modifiables to the new item's ID
+    newItem.getModifiables().forEach((modifiable) => {
+      modifiable.parentId = newItem.id;
+    });
+
     // Register all modifiables with the manager
     newItem.getModifiables().forEach((modifiable) => {
       modifierManager.registerModifiable(modifiable);

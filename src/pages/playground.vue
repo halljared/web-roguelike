@@ -121,6 +121,20 @@ function copyItem(item: Item) {
                     </li>
                   </ul>
                 </div>
+                <div
+                  v-if="copy.modifiers?.length"
+                  class="mt-2"
+                >
+                  <strong>Modifiers:</strong>
+                  <ul>
+                    <li
+                      v-for="modifier in copy.modifiers"
+                      :key="modifier.id"
+                    >
+                      {{ modifier.name }}: {{ modifier.baseVal }}
+                    </li>
+                  </ul>
+                </div>
               </v-list-item>
             </v-list>
             <p
