@@ -1,8 +1,7 @@
 <script setup lang="ts">
-import {
-  Modifiable,
-  ModifiableTag
-} from "@/models/Modifiable";
+import { Modifiable } from "@/models/Modifiable";
+import { ModifiableTag } from "@/models/types";
+
 
 const modifiable = defineModel<Modifiable>('modifiable', {
   required: true,

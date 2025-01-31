@@ -1,29 +1,29 @@
 <script setup lang="ts">
 
-import { useItemStore } from "@/stores/itemStore";
-import { Item } from "@/models/Item";
+import { Modifier } from "@/models/Modifier";
+import { useModifierStore } from "@/stores/modifierStore";
 
 const router = useRouter();
 const route = useRoute('/items/[[id]]');
 const id = route.params.id || "";
-const itemStore = useItemStore();
-let _item = itemStore.getItemById(id);
-if (_item) {
-  _item = Item.copy(_item, true);
+const modifierStore = useModifierStore();
+let _modifier = modifierStore.getModifierById(id);
+if (_modifier) {
+  _modifier = Modifier.copy(_modifier, true);
 } else {
-  _item = new Item();
+  _modifier = new Modifier();
 }
-let item = ref(_item);
+let modifier = ref(_modifier);
 const isValid = ref(false);
 
 const isNew = computed(() => {
-  return !itemStore.getItemById(item.value.id);
+  return !modifierStore.getModifierById(modifier.value.id);
 })
 
 function save() {
   if (isValid.value) {
-    itemStore.setItem(item.value);
-    item = ref(Item.copy(item.value));
+    modifierStore.setModifier(modifier.value);
+    modifier = ref(Modifier.copy(modifier.value));
     router.back();
   }
 }
@@ -46,7 +46,7 @@ function cancel() {
         v-model="isValid"
         @submit.prevent="save"
       >
-        <ItemEditor :item="item" />
+        <ModifierEditor :modifier="modifier" />
         <v-divider class="my-3" />
         <div class="mt-3">
           <v-btn

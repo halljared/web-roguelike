@@ -1,12 +1,13 @@
 <script setup lang="ts">
 
-import { Modifier, ModifierType } from "@/models/Modifier";
-import { ModifiableTag } from "@/models/Modifiable";
+import { Modifier} from "@/models/Modifier";
+import { ModifiableTag, ModifierType } from "@/models/types";
 
 const modifier = defineModel('modifier', {
   type: Modifier,
   default: new Modifier()
 });
+
 </script>
 
 <template>

@@ -1,10 +1,5 @@
 import type { IGameObjectOptions } from "@/models/IGameObjectOptions";
-
-export enum ModifiableTag {
-  ATTRIBUTE = "ATTRIBUTE",
-  STRENGTH = "STRENGTH",
-}
-
+import { ModifiableTag } from "./types";
 export interface IModifiableOptions {
   tags: ModifiableTag[];
   baseVal: number;

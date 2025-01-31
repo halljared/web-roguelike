@@ -1,8 +1,8 @@
-import { defineStore } from 'pinia';
-import { ref, computed } from 'vue';
-import { Item } from '@/models/Item';
+import { defineStore } from "pinia";
+import { ref, computed } from "vue";
+import { Item } from "@/models/Item";
 
-export const useItemStore = defineStore('itemStore', () => {
+export const useItemStore = defineStore("itemStore", () => {
   // State: Store items in a Map for quick access by id
   const items = ref<Map<string, Item>>(new Map());
 

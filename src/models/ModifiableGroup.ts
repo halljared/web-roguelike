@@ -1,16 +1,9 @@
 import { z } from "zod";
 import type { Attribute } from "@/models/Attribute";
-import {
-  type IModifierOptions,
-  type Modifier,
-  ModifierType,
-} from "@/models/Modifier";
-import {
-  type IModifiableOptions,
-  Modifiable,
-  ModifiableTag,
-} from "@/models/Modifiable";
+import { type IModifierOptions, type Modifier } from "@/models/Modifier";
+import { type IModifiableOptions, Modifiable } from "@/models/Modifiable";
 import type { IGameObjectOptions } from "@/models/IGameObjectOptions";
+import { SerializedModifiableGroupSchema } from "./schemas";
 
 interface IRequiredGameObjectOptions extends Omit<IGameObjectOptions, "id"> {
   id: string;
@@ -59,36 +52,17 @@ export abstract class ModifiableGroup implements IGameObjectOptions {
   protected static deserializeBase(
     obj: object
   ): IModifiableGroupDeserialized | undefined {
-    const IGameObjectOptionsSchema = z.object({
-        id: z.string(),
-        name: z.string(),
-        description: z.string(),
-        parentId: z.string(),
-      }),
-      IModifiableOptionsSchema = IGameObjectOptionsSchema.extend({
-        tags: z.array(z.nativeEnum(ModifiableTag)),
-        baseVal: z.number(),
-      }),
-      AttributeSchema = IModifiableOptionsSchema,
-      ModifierSchema = IModifiableOptionsSchema.extend({
-        modifierType: z.nativeEnum(ModifierType),
-        target: z.nativeEnum(ModifiableTag),
-      }),
-      BaseSchema = IGameObjectOptionsSchema.extend({
-        attributes: z.array(AttributeSchema),
-        modifiers: z.array(ModifierSchema),
-      }),
-      ModifiableGroupSchema = z.object({
-        base: BaseSchema,
-      });
-
     let item: IModifiableGroupDeserialized | undefined = undefined;
     try {
-      item = ModifiableGroupSchema.parse(obj);
+      const parsed = SerializedModifiableGroupSchema.parse(obj);
+      return parsed;
     } catch (e) {
-      console.error(e);
+      console.error("Schema validation error:", e);
+      if (e instanceof z.ZodError) {
+        console.error("Validation errors:", e.errors);
+      }
+      return undefined;
     }
-    return item;
   }
 
   protected static baseJSON(base: ModifiableGroup): object {
