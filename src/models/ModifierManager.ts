@@ -14,49 +14,46 @@ const defaultMatcher: ConditionFunction = (
 };
 
 export class ModifierManager {
-  // Internal maps for bidirectional relationships
-  private modifiableToModifiers: Map<Modifiable, Set<Modifier>>;
-  private modifierToModifiables: Map<Modifier, Set<Modifiable>>;
+  private modifiableToModifiers = new Map<Modifiable, Set<Modifier>>();
+  private modifierToModifiables = new Map<Modifier, Set<Modifiable>>();
+  private allModifiables = new Set<Modifiable>();
+  private allModifiers = new Set<Modifier>();
+  private matchers = [defaultMatcher];
 
-  // Storage for all registered modifiables and modifiers
-  private allModifiables: Set<Modifiable>;
-  private allModifiers: Set<Modifier>;
-
-  // List of matching strategies
-  private matchers: ConditionFunction[];
-
-  constructor() {
-    this.modifiableToModifiers = new Map();
-    this.modifierToModifiables = new Map();
-    this.allModifiables = new Set();
-    this.allModifiers = new Set();
-    this.matchers = [defaultMatcher];
+  // Generic remove method to handle both modifiable and modifier removal
+  private removeItem<T extends Modifiable | Modifier>(
+    item: T,
+    itemSet: Set<T>,
+    relationshipMap: Map<T, Set<any>>,
+    otherMap: Map<any, Set<T>>
+  ): void {
+    relationshipMap.get(item)?.forEach((other) => {
+      // delete places where other things referenced this item
+      otherMap.get(other)?.delete(item);
+      if (otherMap.get(other)?.size === 0) {
+        otherMap.delete(other);
+      }
+    });
+    relationshipMap.delete(item);
+    itemSet.delete(item);
   }
 
   removeModifiable(modifiable: Modifiable): void {
-    // Remove all relationships involving this modifiable
-    const modifiers = this.modifiableToModifiers.get(modifiable);
-    if (modifiers) {
-      modifiers.forEach((modifier) => {
-        this.removeRelationship(modifiable, modifier);
-      });
-    }
-
-    // Remove from master set
-    this.allModifiables.delete(modifiable);
+    this.removeItem(
+      modifiable,
+      this.allModifiables,
+      this.modifiableToModifiers,
+      this.modifierToModifiables
+    );
   }
 
   removeModifier(modifier: Modifier): void {
-    // Remove all relationships involving this modifier
-    const modifiables = this.modifierToModifiables.get(modifier);
-    if (modifiables) {
-      modifiables.forEach((modifiable) => {
-        this.removeRelationship(modifiable, modifier);
-      });
-    }
-
-    // Remove from master set
-    this.allModifiers.delete(modifier);
+    this.removeItem(
+      modifier,
+      this.allModifiers,
+      this.modifierToModifiables,
+      this.modifiableToModifiers
+    );
   }
 
   registerModifiable(modifiable: Modifiable): void {
@@ -83,41 +80,19 @@ export class ModifierManager {
     return this.matchers.every((matcher) => matcher(modifiable, modifier));
   }
 
-  // Add a relationship between a modifiable and a modifier
+  // Simplified relationship management
   private addRelationship(modifiable: Modifiable, modifier: Modifier): void {
-    const modifiersForModifiable = this.modifiableToModifiers.get(modifiable);
-    if (modifiersForModifiable) {
-      modifiersForModifiable.add(modifier);
-    } else {
-      this.modifiableToModifiers.set(modifiable, new Set([modifier]));
-    }
+    this.modifiableToModifiers
+      .set(modifiable, this.modifiableToModifiers.get(modifiable) ?? new Set())
+      .get(modifiable)!
+      .add(modifier);
 
-    const modifiablesForModifier = this.modifierToModifiables.get(modifier);
-    if (modifiablesForModifier) {
-      modifiablesForModifier.add(modifiable);
-    } else {
-      this.modifierToModifiables.set(modifier, new Set([modifiable]));
-    }
+    this.modifierToModifiables
+      .set(modifier, this.modifierToModifiables.get(modifier) ?? new Set())
+      .get(modifier)!
+      .add(modifiable);
   }
 
-  // Remove a relationship between a modifiable and a modifier
-  removeRelationship(modifiable: Modifiable, modifier: Modifier): void {
-    if (this.modifiableToModifiers.has(modifiable)) {
-      this.modifiableToModifiers.get(modifiable)!.delete(modifier);
-      if (this.modifiableToModifiers.get(modifiable)!.size === 0) {
-        this.modifiableToModifiers.delete(modifiable);
-      }
-    }
-
-    if (this.modifierToModifiables.has(modifier)) {
-      this.modifierToModifiables.get(modifier)!.delete(modifiable);
-      if (this.modifierToModifiables.get(modifier)!.size === 0) {
-        this.modifierToModifiables.delete(modifier);
-      }
-    }
-  }
-
-  // Get all modifiers that modify a specific modifiable
   getModifiers(modifiable: Modifiable): Set<Modifier> | undefined {
     return this.modifiableToModifiers.get(modifiable);
   }

@@ -5,7 +5,11 @@ import {
   type Modifier,
   ModifierType,
 } from "@/models/Modifier";
-import { type IModifiableOptions, ModifiableTag } from "@/models/Modifiable";
+import {
+  type IModifiableOptions,
+  Modifiable,
+  ModifiableTag,
+} from "@/models/Modifiable";
 import type { IGameObjectOptions } from "@/models/IGameObjectOptions";
 
 interface IRequiredGameObjectOptions extends Omit<IGameObjectOptions, "id"> {
@@ -89,5 +93,14 @@ export abstract class ModifiableGroup implements IGameObjectOptions {
 
   protected static baseJSON(base: ModifiableGroup): object {
     return { ...base };
+  }
+
+  public clearModifiables(): void {
+    this.attributes = [];
+    this.modifiers = [];
+  }
+
+  public getModifiables(): Modifiable[] {
+    return [...this.attributes, ...this.modifiers];
   }
 }

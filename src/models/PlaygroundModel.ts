@@ -35,11 +35,8 @@ export class PlaygroundModel {
     const index = this._selectedCopies.findIndex((copy) => copy.id === itemId);
     if (index !== -1) {
       const copy = this._selectedCopies[index];
-      copy.getModifiables().forEach((modifiable) => {
-        this._modifierManager.removeModifiable(modifiable);
-      });
-      copy.modifiers.forEach((modifier) => {
-        this._modifierManager.removeModifier(modifier);
+      ItemFactory.destroy(copy, {
+        modifierManager: this._modifierManager,
       });
       this._selectedCopies.splice(index, 1);
     }

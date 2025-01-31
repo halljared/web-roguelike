@@ -27,4 +27,21 @@ export class ItemFactory {
 
     return newItem;
   }
+
+  static destroy(item: Item, options: IItemFactoryCreateOptions): void {
+    const { modifierManager } = options;
+
+    // Unregister all modifiables from the manager
+    item.getModifiables().forEach((modifiable) => {
+      modifierManager.removeModifiable(modifiable);
+    });
+
+    // Unregister all modifiers from the manager
+    item.modifiers.forEach((modifier) => {
+      modifierManager.removeModifier(modifier);
+    });
+
+    // Clear references
+    item.clearModifiables(); // Assuming you have this method
+  }
 }
