@@ -15,6 +15,7 @@ declare module 'vue' {
     ItemList: typeof import('./components/items/ItemList.vue')['default']
     ModifiableEditorWidget: typeof import('./components/items/ModifiableEditorWidget.vue')['default']
     ModifierEditorWidget: typeof import('./components/items/ModifierEditorWidget.vue')['default']
+    ModifierList: typeof import('./components/modifiers/ModifierList.vue')['default']
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']
   }

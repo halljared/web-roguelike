@@ -41,6 +41,4 @@ export const SerializedModifiableGroupSchema = z.object({
   base: BaseSchema,
 });
 
-export const SerializedModifierSchema = z.object({
-  base: ModifierSchema,
-});
+export const SerializedModifierSchema = ModifierSchema;

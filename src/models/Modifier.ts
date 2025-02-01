@@ -30,7 +30,7 @@ export class Modifier extends Modifiable {
   }
 
   public static serialize(modifier: Modifier): string {
-    const base = {
+    const constructorOptions: IModifierConstructorOptions = {
       id: modifier.id,
       name: modifier.name,
       description: modifier.description,
@@ -40,29 +40,18 @@ export class Modifier extends Modifiable {
       modifierType: modifier.modifierType,
       target: modifier.target,
     };
-    return JSON.stringify({ base });
+
+    return JSON.stringify(constructorOptions);
   }
 
   public static deserialize(input: string): Modifier | undefined {
-    let modifier: Modifier | undefined = undefined;
     try {
       const parsed = SerializedModifierSchema.parse(JSON.parse(input));
-      const { base } = parsed;
-
-      modifier = new Modifier({
-        id: base.id,
-        name: base.name,
-        description: base.description,
-        parentId: base.parentId,
-        tags: base.tags,
-        baseVal: base.baseVal,
-        modifierType: base.modifierType,
-        target: base.target,
-      });
+      return new Modifier(parsed);
     } catch (e) {
       console.error("Error deserializing modifier:", e);
+      return undefined;
     }
-    return modifier;
   }
 
   public static copy(modifier: Modifier, preserveId?: boolean): Modifier {

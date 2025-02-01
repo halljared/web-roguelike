@@ -1,18 +1,23 @@
 <script setup lang="ts">
-
-import { Modifier} from "@/models/Modifier";
+import { Modifier } from "@/models/Modifier";
 import { ModifiableTag, ModifierType } from "@/models/types";
 
-const modifier = defineModel('modifier', {
+const modifier = defineModel("modifier", {
   type: Modifier,
-  default: new Modifier()
+  default: new Modifier(),
 });
 
+const props = defineProps({
+  header: {
+    type: Boolean,
+    default: true,
+  },
+});
 </script>
 
 <template>
-  <h4>Modifier</h4>
-  <v-divider class="mb-3" />
+  <h4 v-if="header">Modifier</h4>
+  <v-divider v-if="header" class="mb-3" />
   <game-object-editor :object="modifier" />
   <modifiable-editor-widget :modifiable="modifier" />
   <v-row>
@@ -35,6 +40,4 @@ const modifier = defineModel('modifier', {
   </v-row>
 </template>
 
-<style scoped lang="sass">
-
-</style>
+<style scoped lang="sass"></style>

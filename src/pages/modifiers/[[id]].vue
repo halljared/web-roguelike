@@ -1,10 +1,9 @@
 <script setup lang="ts">
-
 import { Modifier } from "@/models/Modifier";
 import { useModifierStore } from "@/stores/modifierStore";
 
 const router = useRouter();
-const route = useRoute('/items/[[id]]');
+const route = useRoute("/modifiers/[[id]]");
 const id = route.params.id || "";
 const modifierStore = useModifierStore();
 let _modifier = modifierStore.getModifierById(id);
@@ -18,7 +17,7 @@ const isValid = ref(false);
 
 const isNew = computed(() => {
   return !modifierStore.getModifierById(modifier.value.id);
-})
+});
 
 function save() {
   if (isValid.value) {
@@ -31,28 +30,18 @@ function save() {
 function cancel() {
   router.back();
 }
-
 </script>
 
 <template>
   <v-container class="fill-height">
-    <v-responsive
-      class="align-centerfill-height mx-auto"
-      max-width="900"
-    >
-      <h3>Item Editor</h3>
+    <v-responsive class="align-centerfill-height mx-auto" max-width="900">
+      <h3>Modifier Editor</h3>
       <v-divider class="mb-5" />
-      <v-form
-        v-model="isValid"
-        @submit.prevent="save"
-      >
-        <ModifierEditor :modifier="modifier" />
+      <v-form v-model="isValid" @submit.prevent="save">
+        <modifier-editor-widget :modifier="modifier" :header="false" />
         <v-divider class="my-3" />
         <div class="mt-3">
-          <v-btn
-            type="submit"
-            color="green-lighten-2"
-          >
+          <v-btn type="submit" color="green-lighten-2">
             {{ isNew ? "Create" : "Update" }}
           </v-btn>
           <v-btn
@@ -69,6 +58,4 @@ function cancel() {
   </v-container>
 </template>
 
-<style scoped lang="sass">
-
-</style>
+<style scoped lang="sass"></style>

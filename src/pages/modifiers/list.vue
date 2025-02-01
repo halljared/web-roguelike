@@ -1,9 +1,11 @@
-<script setup lang="ts"></script>
+<script setup lang="ts">
+import ModifierList from "@/components/modifiers/ModifierList.vue";
+</script>
 
 <template>
   <v-container class="fill-height">
     <v-responsive class="align-centerfill-height mx-auto" max-width="900">
-      <ItemList />
+      <modifier-list />
     </v-responsive>
   </v-container>
 </template>
