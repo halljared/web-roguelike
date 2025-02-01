@@ -1,23 +1,26 @@
 <script setup lang="ts">
-import { Modifier } from "@/models/Modifier";
-import { ModifiableTag, ModifierType } from "@/models/types";
+  import { Modifier } from '@/models/Modifier';
+  import { ModifiableTag, ModifierType, ModifierRarity } from '@/models/types';
 
-const modifier = defineModel("modifier", {
-  type: Modifier,
-  default: new Modifier(),
-});
+  const modifier = defineModel('modifier', {
+    type: Modifier,
+    default: new Modifier(),
+  });
 
-const props = defineProps({
-  header: {
-    type: Boolean,
-    default: true,
-  },
-});
+  const props = defineProps({
+    header: {
+      type: Boolean,
+      default: true,
+    },
+  });
 </script>
 
 <template>
   <h4 v-if="header">Modifier</h4>
-  <v-divider v-if="header" class="mb-3" />
+  <v-divider
+    v-if="header"
+    class="mb-3"
+  />
   <game-object-editor :object="modifier" />
   <modifiable-editor-widget :modifiable="modifier" />
   <v-row>
@@ -34,6 +37,16 @@ const props = defineProps({
         v-model="modifier.target"
         :items="Object.values(ModifiableTag)"
         label="Target"
+        outlined
+      />
+    </v-col>
+  </v-row>
+  <v-row>
+    <v-col cols="6">
+      <v-select
+        v-model="modifier.rarity"
+        :items="Object.values(ModifierRarity)"
+        label="Rarity"
         outlined
       />
     </v-col>

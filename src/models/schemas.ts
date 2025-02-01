@@ -1,5 +1,5 @@
-import { z } from "zod";
-import { ModifiableTag, ModifierType } from "./types";
+import { z } from 'zod';
+import { ModifiableTag, ModifierType, ModifierRarity } from './types';
 
 // Base schemas for common properties
 export const IGameObjectOptionsSchema = z.object({
@@ -16,20 +16,17 @@ const ModifiablePropertiesSchema = z.object({
 });
 
 // Combine for full IModifiableOptionsSchema
-export const IModifiableOptionsSchema = IGameObjectOptionsSchema.merge(
-  ModifiablePropertiesSchema
-);
+export const IModifiableOptionsSchema = IGameObjectOptionsSchema.merge(ModifiablePropertiesSchema);
 
 // Separate modifier-specific properties
 const ModifierPropertiesSchema = z.object({
   modifierType: z.nativeEnum(ModifierType),
   target: z.nativeEnum(ModifiableTag),
+  rarity: z.nativeEnum(ModifierRarity),
 });
 
 // Create full ModifierSchema by merging
-export const ModifierSchema = IModifiableOptionsSchema.merge(
-  ModifierPropertiesSchema
-);
+export const ModifierSchema = IModifiableOptionsSchema.merge(ModifierPropertiesSchema);
 
 // Define BaseSchema
 export const BaseSchema = IGameObjectOptionsSchema.extend({
