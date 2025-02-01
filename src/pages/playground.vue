@@ -1,15 +1,15 @@
 <script setup lang="ts">
-import { useItemStore } from '@/stores/itemStore'
-import { usePlaygroundStore } from '@/stores/playground'
-import { Item } from '@/models/Item'
+  import { useItemStore } from '@/stores/itemStore';
+  import { usePlaygroundStore } from '@/stores/playground';
+  import { Item } from '@/models/Item';
 
-const itemStore = useItemStore()
-const playgroundStore = usePlaygroundStore()
-const items = itemStore.list()
+  const itemStore = useItemStore();
+  const playgroundStore = usePlaygroundStore();
+  const items = itemStore.list();
 
-function copyItem(item: Item) {
-  playgroundStore.addCopy(item)
-}
+  function copyItem(item: Item) {
+    playgroundStore.addCopy(item);
+  }
 </script>
 
 <template>
@@ -70,6 +70,14 @@ function copyItem(item: Item) {
                 </v-card>
               </v-col>
             </v-row>
+            <v-btn
+              color="primary"
+              block
+              to="/items"
+              class="mt-4"
+            >
+              Create New Item
+            </v-btn>
           </v-sheet>
         </v-col>
 
@@ -164,7 +172,8 @@ function copyItem(item: Item) {
               >
                 <v-list-item-title>{{ copy.name }}</v-list-item-title>
                 <v-list-item-subtitle>
-                  This item is being modified by {{ playgroundStore.getItemModifiers(copy).size }} modifier(s)
+                  This item is being modified by
+                  {{ playgroundStore.getItemModifiers(copy).size }} modifier(s)
                 </v-list-item-subtitle>
               </v-list-item>
             </v-list>
@@ -182,7 +191,6 @@ function copyItem(item: Item) {
 </template>
 
 <style scoped lang="sass">
-h2
-  margin-bottom: 16px
-
+  h2
+    margin-bottom: 16px
 </style>

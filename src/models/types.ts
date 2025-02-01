@@ -18,3 +18,7 @@ export enum ModifierRarity {
   LEGENDARY = 'LEGENDARY',
   GODLY = 'GODLY',
 }
+
+export interface IModifierSpec {
+  rarity?: ModifierRarity;
+}

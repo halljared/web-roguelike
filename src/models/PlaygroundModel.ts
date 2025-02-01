@@ -1,7 +1,9 @@
-import { Item } from "@/models/Item";
-import { ModifierManager } from "@/models/ModifierManager";
-import { ItemFactory } from "@/models/factories/ItemFactory";
-import type { Modifier } from "@/models/Modifier";
+import { Item } from '@/models/Item';
+import { ModifierManager } from '@/models/ModifierManager';
+import { ItemFactory } from '@/models/factories/ItemFactory';
+import type { Modifier } from '@/models/Modifier';
+import { useModifierStore } from '@/stores/modifierStore';
+import type { IModifierSpec } from '@/models/types';
 
 export class PlaygroundModel {
   private _selectedCopies: Item[] = [];
@@ -44,5 +46,14 @@ export class PlaygroundModel {
 
   clearCopies(): void {
     this._selectedCopies = [];
+  }
+
+  generateItem(modifierSpec: IModifierSpec): void {
+    const item = ItemFactory.generate({
+      modifierStore: useModifierStore(),
+      modifierSpec,
+      modifierManager: this._modifierManager,
+    });
+    this._selectedCopies.push(item);
   }
 }

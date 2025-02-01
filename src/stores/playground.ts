@@ -1,10 +1,11 @@
-import { defineStore } from "pinia";
-import { ref, computed } from "vue";
-import type { Item } from "@/models/Item";
-import type { Modifier } from "@/models/Modifier";
-import { PlaygroundModel } from "@/models/PlaygroundModel";
+import { defineStore } from 'pinia';
+import { ref, computed } from 'vue';
+import type { Item } from '@/models/Item';
+import type { Modifier } from '@/models/Modifier';
+import { PlaygroundModel } from '@/models/PlaygroundModel';
+import type { IModifierSpec } from '@/models/types';
 
-export const usePlaygroundStore = defineStore("playgroundStore", () => {
+export const usePlaygroundStore = defineStore('playgroundStore', () => {
   // State
   const model = ref(new PlaygroundModel());
 
@@ -35,6 +36,9 @@ export const usePlaygroundStore = defineStore("playgroundStore", () => {
     return model.value.getModifiedBy(item);
   }
 
+  function generateItem(modifierSpec: IModifierSpec): void {
+    model.value.generateItem(modifierSpec);
+  }
   return {
     selectedCopies,
     modifiedCopies,
@@ -43,5 +47,6 @@ export const usePlaygroundStore = defineStore("playgroundStore", () => {
     clearCopies,
     getItemModifiers,
     getModifiedBy,
+    generateItem,
   };
 });

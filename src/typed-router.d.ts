@@ -24,6 +24,7 @@ declare module 'vue-router/auto-routes' {
     '/items/list': RouteRecordInfo<'/items/list', '/items/list', Record<never, never>, Record<never, never>>,
     '/modifiers/[[id]]': RouteRecordInfo<'/modifiers/[[id]]', '/modifiers/:id?', { id?: ParamValueZeroOrOne<true> }, { id?: ParamValueZeroOrOne<false> }>,
     '/modifiers/list': RouteRecordInfo<'/modifiers/list', '/modifiers/list', Record<never, never>, Record<never, never>>,
+    '/modifiers/playground': RouteRecordInfo<'/modifiers/playground', '/modifiers/playground', Record<never, never>, Record<never, never>>,
     '/playground': RouteRecordInfo<'/playground', '/playground', Record<never, never>, Record<never, never>>,
   }
 }

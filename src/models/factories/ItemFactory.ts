@@ -1,9 +1,17 @@
-import type { ModifierManager } from "@/models/ModifierManager";
-import { Item } from "../Item";
+import type { ModifierManager } from '@/models/ModifierManager';
+import { Item } from '../Item';
+import type { IModifierSpec } from '@/models/types';
+import type { ModifierStore } from '@/stores/modifierStore';
+import { ModifierFactory } from '@/models/factories/ModifierFactory';
 
 export interface IItemFactoryCreateOptions {
   modifierManager: ModifierManager;
   deep?: boolean;
+}
+
+export interface IItemFactoryGenerateOptions extends IItemFactoryCreateOptions {
+  modifierStore: ModifierStore;
+  modifierSpec: IModifierSpec;
 }
 
 export class ItemFactory {
@@ -26,6 +34,18 @@ export class ItemFactory {
     });
 
     return newItem;
+  }
+
+  static generate(options: IItemFactoryGenerateOptions): Item {
+    const { modifierStore, modifierSpec, modifierManager } = options;
+    const modifier = ModifierFactory.createModifier(modifierStore, modifierSpec);
+    const item = new Item();
+    modifier.parentId = item.id;
+    item.name = modifier.name;
+    item.modifiers.push(modifier);
+    modifierManager.registerModifiable(modifier);
+    modifierManager.registerModifier(modifier);
+    return item;
   }
 
   static destroy(item: Item, options: IItemFactoryCreateOptions): void {
