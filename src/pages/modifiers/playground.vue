@@ -1,10 +1,10 @@
 <script setup lang="ts">
   import { useModifierStore } from '@/stores/modifierStore';
-  import { usePlaygroundStore } from '@/stores/playground';
   import { ref } from 'vue';
   import { ModifierRarity, type IModifierSpec } from '@/models/types';
+  import { useGameContext } from '@/composables/GameContextComposable';
+  const { playgroundStore } = useGameContext();
   const modifierStore = useModifierStore();
-  const playgroundStore = usePlaygroundStore();
   const modifiers = modifierStore.list();
 
   const modifierSpec = ref<IModifierSpec>({
@@ -151,8 +151,8 @@
                     >
                       <template #prepend>
                         <v-icon
-                          icon="mdi-circle"
-                          color="success"
+                          icon="mdi-cube-outline"
+                          color="info"
                           class="mr-2"
                         />
                       </template>

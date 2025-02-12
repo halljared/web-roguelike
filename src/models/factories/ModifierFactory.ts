@@ -5,6 +5,7 @@ import type { ModifierStore } from '@/stores/modifierStore';
 export class ModifierFactory {
   static createModifier(store: ModifierStore, spec: IModifierSpec): Modifier {
     const modifiers = store.list().filter((modifier) => modifier.rarity === spec.rarity);
+    // TODO: kind of hacky, never intend to have no modifiers
     if (modifiers.length === 0) {
       return new Modifier();
     }

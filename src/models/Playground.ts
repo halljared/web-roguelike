@@ -5,7 +5,7 @@ import type { Modifier } from '@/models/Modifier';
 import { useModifierStore } from '@/stores/modifierStore';
 import type { IModifierSpec } from '@/models/types';
 
-export class PlaygroundModel {
+export class Playground {
   private _selectedCopies: Item[] = [];
   private _modifierManager: ModifierManager = new ModifierManager();
 

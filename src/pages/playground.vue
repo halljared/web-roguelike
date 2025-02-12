@@ -1,10 +1,9 @@
 <script setup lang="ts">
   import { useItemStore } from '@/stores/itemStore';
-  import { usePlaygroundStore } from '@/stores/playground';
   import { Item } from '@/models/Item';
-
+  import { useGameContext } from '@/composables/GameContextComposable';
+  const { playgroundStore } = useGameContext();
   const itemStore = useItemStore();
-  const playgroundStore = usePlaygroundStore();
   const items = itemStore.list();
 
   function copyItem(item: Item) {
