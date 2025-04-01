@@ -1,6 +1,6 @@
 import { Playground } from '@/models/Playground';
 import { ArtifactResolver } from '@/models/ArtifactResolver';
-import { ArtifactEventType, useArtifactEventService } from '@/services/ArtifactEventService';
+import { useArtifactEventService } from '@/services/ArtifactEventService';
 export class GameContext {
   private playground: Playground;
   private artifactResolver: ArtifactResolver;
