@@ -1,6 +1,6 @@
 import type { ModifierManager } from '@/models/ModifierManager';
 import { Item } from '../Item';
-import type { IModifierSpec } from '@/models/types';
+import type { IGenerateItemOptions } from '@/models/types';
 import type { ModifierStore } from '@/stores/modifierStore';
 import { ModifierFactory } from '@/models/factories/ModifierFactory';
 
@@ -11,7 +11,7 @@ export interface IItemFactoryCreateOptions {
 
 export interface IItemFactoryGenerateOptions extends IItemFactoryCreateOptions {
   modifierStore: ModifierStore;
-  modifierSpec: IModifierSpec;
+  itemOptions: IGenerateItemOptions;
 }
 
 export class ItemFactory {
@@ -37,14 +37,20 @@ export class ItemFactory {
   }
 
   static generate(options: IItemFactoryGenerateOptions): Item {
-    const { modifierStore, modifierSpec, modifierManager } = options;
-    const modifier = ModifierFactory.createModifier(modifierStore, modifierSpec);
+    const { modifierStore, itemOptions, modifierManager } = options;
+    const modifiers = [];
+    for (let i = 0; i < itemOptions.numberOfModifiers; i++) {
+      const modifier = ModifierFactory.createModifier(modifierStore, itemOptions.modifierOptions);
+      modifiers.push(modifier);
+    }
     const item = new Item();
-    modifier.parentId = item.id;
-    item.name = modifier.name;
-    item.modifiers.push(modifier);
-    modifierManager.registerModifiable(modifier);
-    modifierManager.registerModifier(modifier);
+    modifiers.forEach((modifier) => {
+      modifier.parentId = item.id;
+      item.name = modifier.name;
+      item.modifiers.push(modifier);
+      modifierManager.registerModifiable(modifier);
+      modifierManager.registerModifier(modifier);
+    });
     return item;
   }
 

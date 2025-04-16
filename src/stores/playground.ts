@@ -3,7 +3,7 @@ import { ref, computed } from 'vue';
 import type { Item } from '@/models/Item';
 import type { Modifier } from '@/models/Modifier';
 import { Playground } from '@/models/Playground';
-import type { IModifierSpec } from '@/models/types';
+import type { IGenerateItemOptions } from '@/models/types';
 
 export const usePlaygroundStore = defineStore('playgroundStore', () => {
   // State
@@ -41,8 +41,8 @@ export const usePlaygroundStore = defineStore('playgroundStore', () => {
     return model.value?.getModifiedBy(item) ?? new Set();
   }
 
-  function generateItem(modifierSpec: IModifierSpec): void {
-    model.value?.generateItem(modifierSpec);
+  function generateItem(itemOptions: IGenerateItemOptions): void {
+    model.value?.generateItem(itemOptions);
   }
   return {
     playground,

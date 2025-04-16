@@ -1,18 +1,21 @@
 <script setup lang="ts">
   import { useModifierStore } from '@/stores/modifierStore';
   import { ref } from 'vue';
-  import { ModifierRarity, type IModifierSpec } from '@/models/types';
+  import { ModifierRarity, type IGenerateItemOptions } from '@/models/types';
   import { useGameContext } from '@/composables/GameContextComposable';
   const { playgroundStore } = useGameContext();
   const modifierStore = useModifierStore();
   const modifiers = modifierStore.list();
 
-  const modifierSpec = ref<IModifierSpec>({
-    rarity: ModifierRarity.COMMON,
+  const generatorOptions = ref<IGenerateItemOptions>({
+    modifierOptions: {
+      rarity: ModifierRarity.COMMON,
+    },
+    numberOfModifiers: 1,
   });
 
   function generateItem() {
-    playgroundStore.generateItem(modifierSpec.value);
+    playgroundStore.generateItem(generatorOptions.value);
   }
 </script>
 
@@ -86,9 +89,16 @@
 
             <v-form @submit.prevent="generateItem">
               <v-select
-                v-model="modifierSpec.rarity"
+                v-model="generatorOptions.modifierOptions.rarity"
                 :items="Object.values(ModifierRarity)"
                 label="Modifier Rarity"
+                class="mb-4"
+              />
+              <v-text-field
+                v-model.number="generatorOptions.numberOfModifiers"
+                label="Number of Modifiers"
+                type="number"
+                min="1"
                 class="mb-4"
               />
               <v-btn

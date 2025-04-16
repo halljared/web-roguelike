@@ -22,8 +22,13 @@ export enum ModifierRarity {
   GODLY = 'GODLY',
 }
 
-export interface IModifierSpec {
-  rarity?: ModifierRarity;
+export interface IGenerateModifierOptions {
+  rarity: ModifierRarity;
+}
+
+export interface IGenerateItemOptions {
+  modifierOptions: IGenerateModifierOptions;
+  numberOfModifiers: number;
 }
 
 export interface IArtifactOptions {
