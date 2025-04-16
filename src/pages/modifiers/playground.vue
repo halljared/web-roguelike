@@ -1,10 +1,10 @@
 <script setup lang="ts">
-  import { useModifierStore } from '@/stores/modifierStore';
+  import { useModifierTemplateStore } from '@/stores/modifierTemplateStore';
   import { ref } from 'vue';
   import { ModifierRarity, type IGenerateItemOptions } from '@/models/types';
   import { useGameContext } from '@/composables/GameContextComposable';
   const { playgroundStore } = useGameContext();
-  const modifierStore = useModifierStore();
+  const modifierStore = useModifierTemplateStore();
   const modifiers = modifierStore.list();
 
   const generatorOptions = ref<IGenerateItemOptions>({

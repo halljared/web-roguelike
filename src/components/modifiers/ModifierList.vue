@@ -1,7 +1,7 @@
 <script setup lang="ts">
-  import { useModifierStore } from '@/stores/modifierStore';
+  import { useModifierTemplateStore } from '@/stores/modifierTemplateStore';
 
-  const store = useModifierStore();
+  const store = useModifierTemplateStore();
   const modifiers = store.list();
   const headers = [
     {

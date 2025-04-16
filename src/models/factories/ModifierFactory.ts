@@ -1,9 +1,9 @@
 import { type IGenerateModifierOptions } from '@/models/types';
 import { Modifier } from '@/models/Modifier';
-import type { ModifierStore } from '@/stores/modifierStore';
+import type { ModifierTemplateStore } from '@/stores/modifierTemplateStore';
 
 export class ModifierFactory {
-  static createModifier(store: ModifierStore, spec: IGenerateModifierOptions): Modifier {
+  static createModifier(store: ModifierTemplateStore, spec: IGenerateModifierOptions): Modifier {
     const modifiers = store.list().filter((modifier) => modifier.rarity === spec.rarity);
     // TODO: kind of hacky, never intend to have no modifiers
     if (modifiers.length === 0) {

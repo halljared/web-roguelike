@@ -2,7 +2,7 @@ import { defineStore } from 'pinia';
 import { ref, computed } from 'vue';
 import type { Modifier } from '@/models/Modifier';
 
-export const useModifierStore = defineStore('modifierStore', () => {
+export const useModifierTemplateStore = defineStore('modifierTemplateStore', () => {
   // State: Store items in a Map for quick access by id
   const modifiers = ref<Map<string, Modifier>>(new Map());
 
@@ -30,4 +30,4 @@ export const useModifierStore = defineStore('modifierStore', () => {
     removeModifier,
   };
 });
-export type ModifierStore = ReturnType<typeof useModifierStore>;
+export type ModifierTemplateStore = ReturnType<typeof useModifierTemplateStore>;

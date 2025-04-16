@@ -2,7 +2,7 @@ import { Item } from '@/models/Item';
 import { ModifierManager } from '@/models/ModifierManager';
 import { ItemFactory } from '@/models/factories/ItemFactory';
 import type { Modifier } from '@/models/Modifier';
-import { useModifierStore } from '@/stores/modifierStore';
+import { useModifierTemplateStore } from '@/stores/modifierTemplateStore';
 import type { IGenerateItemOptions } from '@/models/types';
 
 export class Playground {
@@ -50,7 +50,7 @@ export class Playground {
 
   generateItem(itemOptions: IGenerateItemOptions): void {
     const item = ItemFactory.generate({
-      modifierStore: useModifierStore(),
+      modifierTemplateStore: useModifierTemplateStore(),
       itemOptions,
       modifierManager: this._modifierManager,
     });
