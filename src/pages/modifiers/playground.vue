@@ -46,21 +46,33 @@
                   elevation="2"
                   class="mb-2 pa-2"
                 >
-                  <div class="d-flex align-center">
-                    <v-icon
-                      icon="mdi-function-variant"
-                      class="mr-2"
-                    />
-                    <span class="font-weight-medium">{{ modifier.name }}</span>
+                  <div class="d-flex flex-column">
+                    <div class="d-flex align-center">
+                      <v-icon
+                        icon="mdi-function-variant"
+                        class="mr-2"
+                      />
+                      <span class="font-weight-medium">{{ modifier.name }}</span>
 
-                    <v-spacer />
+                      <v-spacer />
 
-                    <v-btn
-                      icon="mdi-pencil"
-                      size="small"
-                      :to="`/modifiers/${modifier.id}`"
-                      class="mr-2"
-                    />
+                      <v-btn
+                        icon="mdi-pencil"
+                        size="small"
+                        :to="`/modifiers/${modifier.id}`"
+                        class="mr-2"
+                      />
+                    </div>
+                    <div class="d-flex align-center mt-1">
+                      <v-chip
+                        size="small"
+                        :color="modifier.rarity.toLowerCase()"
+                        class="mr-2"
+                      >
+                        {{ modifier.rarity }}
+                      </v-chip>
+                      <span class="text-caption">{{ modifier.description }}</span>
+                    </div>
                   </div>
                 </v-card>
               </v-col>
