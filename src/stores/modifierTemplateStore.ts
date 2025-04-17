@@ -1,10 +1,58 @@
 import { defineStore } from 'pinia';
 import { ref, computed } from 'vue';
-import type { Modifier } from '@/models/Modifier';
+import { Modifier } from '@/models/Modifier';
+import { ModifierRarity, ModifierType, ModifiableTag } from '@/models/types';
 
 export const useModifierTemplateStore = defineStore('modifierTemplateStore', () => {
   // State: Store items in a Map for quick access by id
-  const modifiers = ref<Map<string, Modifier>>(new Map());
+  const modifiers = ref<Map<string, Modifier>>(
+    new Map([
+      [
+        'strength_boost',
+        new Modifier({
+          name: 'Strength Boost',
+          description: 'Increases strength by a small amount',
+          baseVal: 5,
+          modifierType: ModifierType.ADDITIVE,
+          target: ModifiableTag.STRENGTH,
+          rarity: ModifierRarity.COMMON,
+        }),
+      ],
+      [
+        'agility_boost',
+        new Modifier({
+          name: 'Agility Boost',
+          description: 'Increases agility by a small amount',
+          baseVal: 5,
+          modifierType: ModifierType.ADDITIVE,
+          target: ModifiableTag.HEALTH,
+          rarity: ModifierRarity.COMMON,
+        }),
+      ],
+      [
+        'intelligence_boost',
+        new Modifier({
+          name: 'Intelligence Boost',
+          description: 'Increases intelligence by a small amount',
+          baseVal: 5,
+          modifierType: ModifierType.ADDITIVE,
+          target: ModifiableTag.MANA,
+          rarity: ModifierRarity.COMMON,
+        }),
+      ],
+      [
+        'rare_strength_boost',
+        new Modifier({
+          name: 'Rare Strength Boost',
+          description: 'Significantly increases strength',
+          baseVal: 15,
+          modifierType: ModifierType.ADDITIVE,
+          target: ModifiableTag.STRENGTH,
+          rarity: ModifierRarity.RARE,
+        }),
+      ],
+    ])
+  );
 
   // Getters
   const getModifierById = computed(() => (id: string) => {
