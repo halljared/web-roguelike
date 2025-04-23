@@ -1,24 +1,15 @@
 import { z } from 'zod';
-import { type IModifiableConstructorOptions, Modifiable } from '@/models/Modifiable';
+import { Modifiable } from '@/models/Modifiable';
 import { SerializedModifierSchema } from './schemas';
 import { ModifierType, ModifiableTag, ModifierRarity } from './types';
+import type { IModifier, IModifierOptions } from '@/models/interfaces/IModifier';
 
-export interface IModifierOptions {
-  modifierType?: ModifierType;
-  target?: ModifiableTag;
-  rarity?: ModifierRarity;
-}
-
-export interface IModifierConstructorOptions
-  extends IModifierOptions,
-    IModifiableConstructorOptions {}
-
-export class Modifier extends Modifiable {
+export class Modifier extends Modifiable implements IModifier {
   public modifierType: ModifierType;
   public target: ModifiableTag;
   public rarity: ModifierRarity;
 
-  constructor(options: IModifierConstructorOptions = {}) {
+  constructor(options: IModifierOptions = {}) {
     super(options);
     const {
       modifierType = ModifierType.ADDITIVE,
@@ -31,7 +22,7 @@ export class Modifier extends Modifiable {
   }
 
   public static serialize(modifier: Modifier): string {
-    const constructorOptions: IModifierConstructorOptions = {
+    const constructorOptions: IModifierOptions = {
       id: modifier.id,
       name: modifier.name,
       description: modifier.description,

@@ -1,32 +1,20 @@
 import { z } from 'zod';
-import type { Attribute } from '@/models/modifiables/Attribute';
-import { type IModifierOptions, type Modifier } from '@/models/Modifier';
-import { type IModifiableOptions, Modifiable } from '@/models/Modifiable';
-import type { IGameObjectOptions } from '@/models/IGameObjectOptions';
+import type { IModifiable } from '@/models/interfaces/IModifiable';
+import type { IModifier } from '@/models/interfaces/IModifier';
+import type { IModifiableGroup } from '@/models/interfaces/IModifiableGroup';
 import { SerializedModifiableGroupSchema } from './schemas';
+import type { IAttribute } from '@/models/interfaces/IAttribute';
+import type {
+  IModifiableGroupDeserialized,
+  IModifiableGroupOptions,
+} from '@/models/interfaces/IModifiableGroup';
 
-interface IRequiredGameObjectOptions extends Omit<IGameObjectOptions, 'id'> {
-  id: string;
-}
-
-export interface IModifiableGroupDeserialized {
-  base: IRequiredGameObjectOptions & {
-    attributes: (IRequiredGameObjectOptions & IModifiableOptions)[];
-    modifiers: (IRequiredGameObjectOptions & IModifiableOptions & IModifierOptions)[];
-  };
-}
-
-export interface IModifiableGroupOptions extends IGameObjectOptions {
-  attributes: Attribute[];
-  modifiers: Modifier[];
-}
-
-export abstract class ModifiableGroup implements IGameObjectOptions {
+export abstract class ModifiableGroup implements IModifiableGroup {
   public id: string;
   public name: string;
   public description: string;
-  public attributes: Attribute[];
-  public modifiers: Modifier[];
+  public attributes: IAttribute[];
+  public modifiers: IModifier[];
   public parentId: string;
 
   protected constructor(
@@ -70,7 +58,7 @@ export abstract class ModifiableGroup implements IGameObjectOptions {
     this.modifiers = [];
   }
 
-  public getModifiables(): Modifiable[] {
+  public getModifiables(): IModifiable[] {
     return [...this.attributes, ...this.modifiers];
   }
 }

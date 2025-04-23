@@ -1,17 +1,7 @@
-import type { IGameObjectOptions } from "@/models/IGameObjectOptions";
-import { ModifiableTag } from "./types";
-export interface IModifiableOptions {
-  tags: ModifiableTag[];
-  baseVal: number;
-}
+import type { IModifiable, IModifiableOptions } from '@/models/interfaces/IModifiable';
+import { ModifiableTag } from './types';
 
-export interface IModifiableConstructorOptions
-  extends Partial<IGameObjectOptions>,
-    Partial<IModifiableOptions> {}
-
-export abstract class Modifiable
-  implements IGameObjectOptions, IModifiableOptions
-{
+export abstract class Modifiable implements IModifiable {
   public id: string;
   public name: string;
   public description: string;
@@ -19,11 +9,11 @@ export abstract class Modifiable
   public tags: ModifiableTag[];
   public parentId: string;
 
-  protected constructor(options: IModifiableConstructorOptions = {}) {
+  protected constructor(options: IModifiableOptions = {}) {
     const {
       id = crypto.randomUUID(),
-      name = "",
-      description = "",
+      name = '',
+      description = '',
       baseVal = 0,
       tags = [],
       parentId,
@@ -34,6 +24,6 @@ export abstract class Modifiable
     this.description = description;
     this.baseVal = baseVal;
     this.tags = tags;
-    this.parentId = parentId ?? "";
+    this.parentId = parentId ?? '';
   }
 }

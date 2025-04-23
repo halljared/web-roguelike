@@ -1,7 +1,7 @@
 <script setup lang="ts">
-  import type { IGameObjectOptions } from '@/models/IGameObjectOptions';
+  import type { IGameObject } from '@/models/interfaces/IGameObject';
   const gameObjectOptions = defineModel('object', {
-    type: Object as PropType<IGameObjectOptions>,
+    type: Object as PropType<IGameObject>,
     required: true,
   });
 
