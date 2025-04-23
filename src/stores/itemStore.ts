@@ -1,10 +1,10 @@
-import { defineStore } from "pinia";
-import { ref, computed } from "vue";
-import { Item } from "@/models/Item";
+import { defineStore } from 'pinia';
+import { ref, computed } from 'vue';
+import type { IItem } from '@/models/interfaces/IItem';
 
-export const useItemStore = defineStore("itemStore", () => {
+export const useItemStore = defineStore('itemStore', () => {
   // State: Store items in a Map for quick access by id
-  const items = ref<Map<string, Item>>(new Map());
+  const items = ref<Map<string, IItem>>(new Map());
 
   // Getters
   const getItemById = computed(() => (id: string) => {
@@ -15,7 +15,7 @@ export const useItemStore = defineStore("itemStore", () => {
   });
 
   // Actions
-  function setItem(item: Item): void {
+  function setItem(item: IItem): void {
     items.value.set(item.id, item);
   }
   function removeItem(itemId: string) {

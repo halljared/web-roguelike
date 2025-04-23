@@ -1,37 +1,35 @@
 <script setup lang="ts">
+  import { useItemStore } from '@/stores/itemStore';
+  import { createItem, ItemUtils } from '@/models/Item';
 
-import { useItemStore } from "@/stores/itemStore";
-import { Item } from "@/models/Item";
+  const router = useRouter();
+  const route = useRoute('/items/[[id]]');
+  const id = route.params.id || '';
+  const itemStore = useItemStore();
+  let _item = itemStore.getItemById(id);
+  if (_item) {
+    _item = ItemUtils.copy(_item, true);
+  } else {
+    _item = createItem();
+  }
+  let item = ref(_item);
+  const isValid = ref(false);
 
-const router = useRouter();
-const route = useRoute('/items/[[id]]');
-const id = route.params.id || "";
-const itemStore = useItemStore();
-let _item = itemStore.getItemById(id);
-if (_item) {
-  _item = Item.copy(_item, true);
-} else {
-  _item = new Item();
-}
-let item = ref(_item);
-const isValid = ref(false);
+  const isNew = computed(() => {
+    return !itemStore.getItemById(item.value.id);
+  });
 
-const isNew = computed(() => {
-  return !itemStore.getItemById(item.value.id);
-})
+  function save() {
+    if (isValid.value) {
+      itemStore.setItem(item.value);
+      item = ref(ItemUtils.copy(item.value));
+      router.back();
+    }
+  }
 
-function save() {
-  if (isValid.value) {
-    itemStore.setItem(item.value);
-    item = ref(Item.copy(item.value));
+  function cancel() {
     router.back();
   }
-}
-
-function cancel() {
-  router.back();
-}
-
 </script>
 
 <template>
@@ -53,7 +51,7 @@ function cancel() {
             type="submit"
             color="green-lighten-2"
           >
-            {{ isNew ? "Create" : "Update" }}
+            {{ isNew ? 'Create' : 'Update' }}
           </v-btn>
           <v-btn
             class="ml-4"
@@ -69,6 +67,4 @@ function cancel() {
   </v-container>
 </template>
 
-<style scoped lang="sass">
-
-</style>
+<style scoped lang="sass"></style>

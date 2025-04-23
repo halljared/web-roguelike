@@ -1,4 +1,3 @@
-import { z } from 'zod';
 import { SerializedModifierSchema } from './schemas';
 import { ModifierType, ModifiableTag, ModifierRarity } from './types';
 import type { IModifier, IModifierOptions } from '@/models/interfaces/IModifier';

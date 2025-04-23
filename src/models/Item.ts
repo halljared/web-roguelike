@@ -1,24 +1,27 @@
-import { ModifiableGroup } from '@/models/ModifiableGroup';
+import { createModifiableGroup, ModifiableGroupUtils } from '@/models/ModifiableGroup';
 import { createAttribute } from '@/models/modifiables/Attribute';
 import { createModifier } from '@/models/Modifier';
-import type { IModifiable } from '@/models/interfaces/IModifiable';
-import type { IModifiableGroupOptions } from '@/models/interfaces/IModifiableGroup';
+import type { IModifiableGroup } from '@/models/interfaces/IModifiableGroup';
+import type { IItem, IItemOptions } from '@/models/interfaces/IItem';
 
-export class Item extends ModifiableGroup {
-  constructor(baseOpts?: IModifiableGroupOptions) {
-    super(baseOpts);
-  }
+export function createItem(options: IItemOptions = {}): IItem {
+  const item = {
+    ...createModifiableGroup(options),
+  };
+  return item;
+}
 
-  public static serialize(item: Item): string {
-    const base = ModifiableGroup.baseJSON(item);
+export const ItemUtils = {
+  serialize(item: IItem): string {
+    const base = ModifiableGroupUtils.baseJSON(item);
     return JSON.stringify({ base });
-  }
+  },
 
-  public static deserialize(input: string): Item | undefined {
-    let item: Item | undefined = undefined;
+  deserialize(input: string): IItem | undefined {
+    let item: IItem | undefined = undefined;
     try {
       const parsed = JSON.parse(input);
-      const deserializedItem = ModifiableGroup.deserializeBase(parsed);
+      const deserializedItem = ModifiableGroupUtils.deserializeBase(parsed);
       if (deserializedItem) {
         const base = deserializedItem.base;
         const baseOpts = {
@@ -26,19 +29,19 @@ export class Item extends ModifiableGroup {
           attributes: base.attributes.map((attr) => createAttribute(attr)),
           modifiers: base.modifiers.map((mod) => createModifier(mod)),
         };
-        item = new Item(baseOpts);
+        item = createItem(baseOpts);
       }
     } catch (e) {
       console.error(e);
     }
     return item;
-  }
+  },
 
-  public static copy(item: Item, preserveId?: boolean): Item {
-    const copiedItem = Item.deserialize(Item.serialize(item)) as Item;
+  copy(item: IItem, preserveId?: boolean): IItem {
+    const copiedItem = ItemUtils.deserialize(ItemUtils.serialize(item)) as IItem;
     if (!preserveId) {
       copiedItem.id = crypto.randomUUID();
     }
     return copiedItem;
-  }
-}
+  },
+};

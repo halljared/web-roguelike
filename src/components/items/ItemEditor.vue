@@ -1,10 +1,9 @@
 <script setup lang="ts">
-  import { Item } from '@/models/Item';
+  import type { IItem } from '@/models/interfaces/IItem';
   import { createAttribute } from '@/models/modifiables/Attribute';
   import { createModifier } from '@/models/Modifier';
 
-  const item = defineModel('item', {
-    type: Item,
+  const item = defineModel<IItem>('item', {
     required: true,
   });
 

@@ -1,22 +1,23 @@
-import { Item } from '@/models/Item';
-import { ModifierManager } from '@/models/ModifierManager';
 import { ItemFactory } from '@/models/factories/ItemFactory';
-import type { Modifier } from '@/models/Modifier';
+import { ModifierManager } from '@/models/ModifierManager';
+import type { IItem } from '@/models/interfaces/IItem';
 import { useModifierTemplateStore } from '@/stores/modifierTemplateStore';
 import type { IGenerateItemOptions } from '@/models/types';
+import type { IModifier } from '@/models/interfaces/IModifier';
+import { ModifiableGroupUtils } from '@/models/ModifiableGroup';
 
 export class Playground {
-  private _selectedCopies: Item[] = [];
+  private _selectedCopies: IItem[] = [];
   private _modifierManager: ModifierManager = new ModifierManager();
 
-  get selectedCopies(): Item[] {
+  get selectedCopies(): IItem[] {
     return this._selectedCopies;
   }
 
-  getModifiedBy(item: Item): Set<Modifier> {
-    const allModifiers = new Set<Modifier>();
+  getModifiedBy(item: IItem): Set<IModifier> {
+    const allModifiers = new Set<IModifier>();
 
-    item.getModifiables().forEach((modifiable) => {
+    ModifiableGroupUtils.getModifiables(item).forEach((modifiable) => {
       const modifiers = this._modifierManager.getModifiers(modifiable);
       if (modifiers) {
         modifiers.forEach((modifier) => allModifiers.add(modifier));
@@ -26,7 +27,7 @@ export class Playground {
     return allModifiers;
   }
 
-  addCopy(item: Item): void {
+  addCopy(item: IItem): void {
     const copy = ItemFactory.create(item, {
       modifierManager: this._modifierManager,
     });

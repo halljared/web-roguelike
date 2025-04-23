@@ -1,4 +1,4 @@
-import type { IGameObject, IRequiredGameObjectOptions } from '@/models/interfaces/IGameObject';
+import type { IGameObject, IGameObjectOptions } from '@/models/interfaces/IGameObject';
 import type { IAttribute } from '@/models/interfaces/IAttribute';
 import type { IModifier } from '@/models/interfaces/IModifier';
 import type { IModifiableOptions } from '@/models/interfaces/IModifiable';
@@ -10,13 +10,10 @@ export interface IModifiableGroup extends IGameObject {
 }
 
 export interface IModifiableGroupDeserialized {
-  base: IRequiredGameObjectOptions & {
-    attributes: (IRequiredGameObjectOptions & IModifiableOptions)[];
-    modifiers: (IRequiredGameObjectOptions & IModifiableOptions & IModifierOptions)[];
+  base: IGameObjectOptions & {
+    attributes: (IGameObjectOptions & IModifiableOptions)[];
+    modifiers: (IGameObjectOptions & IModifiableOptions & IModifierOptions)[];
   };
 }
 
-export interface IModifiableGroupOptions extends IGameObject {
-  attributes: IAttribute[];
-  modifiers: IModifier[];
-}
+export interface IModifiableGroupOptions extends Partial<IModifiableGroup> {}

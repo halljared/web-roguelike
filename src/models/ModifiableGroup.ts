@@ -8,34 +8,21 @@ import type {
   IModifiableGroupDeserialized,
   IModifiableGroupOptions,
 } from '@/models/interfaces/IModifiableGroup';
+import { createGameObject } from '@/models/GameObject';
 
-export abstract class ModifiableGroup implements IModifiableGroup {
-  public id: string;
-  public name: string;
-  public description: string;
-  public attributes: IAttribute[];
-  public modifiers: IModifier[];
-  public parentId: string;
+export function createModifiableGroup(options: IModifiableGroupOptions = {}): IModifiableGroup {
+  const { attributes, modifiers, parentId } = options;
+  const modifiableGroup = {
+    ...createGameObject(options),
+    parentId: parentId ?? '',
+    attributes: attributes ?? [],
+    modifiers: modifiers ?? [],
+  };
+  return modifiableGroup;
+}
 
-  protected constructor(
-    baseOpts: IModifiableGroupOptions = {
-      name: '',
-      description: '',
-      attributes: [],
-      modifiers: [],
-    }
-  ) {
-    const { id, name, description, attributes, modifiers, parentId } = baseOpts;
-
-    this.id = id ?? crypto.randomUUID();
-    this.name = name;
-    this.description = description;
-    this.attributes = attributes;
-    this.modifiers = modifiers;
-    this.parentId = parentId ?? '';
-  }
-
-  protected static deserializeBase(obj: object): IModifiableGroupDeserialized | undefined {
+export const ModifiableGroupUtils = {
+  deserializeBase(obj: object): IModifiableGroupDeserialized | undefined {
     let item: IModifiableGroupDeserialized | undefined = undefined;
     try {
       const parsed = SerializedModifiableGroupSchema.parse(obj);
@@ -47,18 +34,18 @@ export abstract class ModifiableGroup implements IModifiableGroup {
       }
       return undefined;
     }
-  }
+  },
 
-  protected static baseJSON(base: ModifiableGroup): object {
+  baseJSON(base: IModifiableGroup): object {
     return { ...base };
-  }
+  },
 
-  public clearModifiables(): void {
-    this.attributes = [];
-    this.modifiers = [];
-  }
+  clearModifiables(modifiableGroup: IModifiableGroup): void {
+    modifiableGroup.attributes = [];
+    modifiableGroup.modifiers = [];
+  },
 
-  public getModifiables(): IModifiable[] {
-    return [...this.attributes, ...this.modifiers];
-  }
-}
+  getModifiables(modifiableGroup: IModifiableGroup): IModifiable[] {
+    return [...modifiableGroup.attributes, ...modifiableGroup.modifiers];
+  },
+};
