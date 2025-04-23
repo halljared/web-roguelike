@@ -1,11 +1,10 @@
 <script setup lang="ts">
+  import { Attribute } from '@/models/modifiables/Attribute';
 
-import { Attribute } from "@/models/Attribute";
-
-const attribute = defineModel('attribute', {
-  type: Attribute,
-  default: new Attribute()
-});
+  const attribute = defineModel('attribute', {
+    type: Attribute,
+    default: new Attribute(),
+  });
 </script>
 
 <template>
@@ -15,6 +14,4 @@ const attribute = defineModel('attribute', {
   <modifiable-editor-widget :modifiable="attribute" />
 </template>
 
-<style scoped lang="sass">
-
-</style>
+<style scoped lang="sass"></style>

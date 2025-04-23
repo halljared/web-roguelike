@@ -1,27 +1,25 @@
 <script setup lang="ts">
-import { Item } from "@/models/Item";
-import { Attribute } from "@/models/Attribute";
-import { Modifier } from "@/models/Modifier";
+  import { Item } from '@/models/Item';
+  import { Attribute } from '@/models/modifiables/Attribute';
+  import { Modifier } from '@/models/Modifier';
 
-const item = defineModel('item', {
-  type: Item,
-  required: true
-});
+  const item = defineModel('item', {
+    type: Item,
+    required: true,
+  });
 
-function newAttribute() {
-  item.value.attributes.push(new Attribute());
-}
+  function newAttribute() {
+    item.value.attributes.push(new Attribute());
+  }
 
-function newModifier() {
-  item.value.modifiers.push(new Modifier());
-}
+  function newModifier() {
+    item.value.modifiers.push(new Modifier());
+  }
 </script>
 
 <template>
   <game-object-editor :object="item" />
-  <h4 class="mt-3">
-    Attributes
-  </h4>
+  <h4 class="mt-3"> Attributes </h4>
   <v-divider class="mb-3" />
   <v-row
     v-for="(attribute, index) in item.attributes"
@@ -45,9 +43,7 @@ function newModifier() {
       </v-btn>
     </v-col>
   </v-row>
-  <h4 class="mt-3">
-    Modifiers
-  </h4>
+  <h4 class="mt-3"> Modifiers </h4>
   <v-divider class="mb-3" />
   <v-row
     v-for="(modifier, index) in item.modifiers"
@@ -73,6 +69,4 @@ function newModifier() {
   </v-row>
 </template>
 
-<style scoped lang="sass">
-
-</style>
+<style scoped lang="sass"></style>

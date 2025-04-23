@@ -1,20 +1,18 @@
-import { z } from "zod";
-import type { Attribute } from "@/models/Attribute";
-import { type IModifierOptions, type Modifier } from "@/models/Modifier";
-import { type IModifiableOptions, Modifiable } from "@/models/Modifiable";
-import type { IGameObjectOptions } from "@/models/IGameObjectOptions";
-import { SerializedModifiableGroupSchema } from "./schemas";
+import { z } from 'zod';
+import type { Attribute } from '@/models/modifiables/Attribute';
+import { type IModifierOptions, type Modifier } from '@/models/Modifier';
+import { type IModifiableOptions, Modifiable } from '@/models/Modifiable';
+import type { IGameObjectOptions } from '@/models/IGameObjectOptions';
+import { SerializedModifiableGroupSchema } from './schemas';
 
-interface IRequiredGameObjectOptions extends Omit<IGameObjectOptions, "id"> {
+interface IRequiredGameObjectOptions extends Omit<IGameObjectOptions, 'id'> {
   id: string;
 }
 
 export interface IModifiableGroupDeserialized {
   base: IRequiredGameObjectOptions & {
     attributes: (IRequiredGameObjectOptions & IModifiableOptions)[];
-    modifiers: (IRequiredGameObjectOptions &
-      IModifiableOptions &
-      IModifierOptions)[];
+    modifiers: (IRequiredGameObjectOptions & IModifiableOptions & IModifierOptions)[];
   };
 }
 
@@ -33,8 +31,8 @@ export abstract class ModifiableGroup implements IGameObjectOptions {
 
   protected constructor(
     baseOpts: IModifiableGroupOptions = {
-      name: "",
-      description: "",
+      name: '',
+      description: '',
       attributes: [],
       modifiers: [],
     }
@@ -46,20 +44,18 @@ export abstract class ModifiableGroup implements IGameObjectOptions {
     this.description = description;
     this.attributes = attributes;
     this.modifiers = modifiers;
-    this.parentId = parentId ?? "";
+    this.parentId = parentId ?? '';
   }
 
-  protected static deserializeBase(
-    obj: object
-  ): IModifiableGroupDeserialized | undefined {
+  protected static deserializeBase(obj: object): IModifiableGroupDeserialized | undefined {
     let item: IModifiableGroupDeserialized | undefined = undefined;
     try {
       const parsed = SerializedModifiableGroupSchema.parse(obj);
       return parsed;
     } catch (e) {
-      console.error("Schema validation error:", e);
+      console.error('Schema validation error:', e);
       if (e instanceof z.ZodError) {
-        console.error("Validation errors:", e.errors);
+        console.error('Validation errors:', e.errors);
       }
       return undefined;
     }

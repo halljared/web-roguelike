@@ -1,10 +1,7 @@
-import {
-  type IModifiableGroupOptions,
-  ModifiableGroup,
-} from "@/models/ModifiableGroup";
-import { Attribute } from "@/models/Attribute";
-import { Modifier } from "@/models/Modifier";
-import type { Modifiable } from "./Modifiable";
+import { type IModifiableGroupOptions, ModifiableGroup } from '@/models/ModifiableGroup';
+import { Attribute } from '@/models/modifiables/Attribute';
+import { Modifier } from '@/models/Modifier';
+import type { Modifiable } from './Modifiable';
 
 export class Item extends ModifiableGroup {
   constructor(baseOpts?: IModifiableGroupOptions) {

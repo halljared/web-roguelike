@@ -1,19 +1,16 @@
 <script setup lang="ts">
+  import type { IGameObjectOptions } from '@/models/IGameObjectOptions';
+  const gameObjectOptions = defineModel('object', {
+    type: Object as PropType<IGameObjectOptions>,
+    required: true,
+  });
 
-import type { IGameObjectOptions } from "@/types/IGameObjectOptions";
-
-const gameObjectOptions = defineModel('object', {
-  type: Object as PropType<IGameObjectOptions>,
-  required: true
-});
-
-const rules = [
-  (value: string) => {
-    if (value) return true
-    return 'Field is required.'
-  }
-];
-
+  const rules = [
+    (value: string) => {
+      if (value) return true;
+      return 'Field is required.';
+    },
+  ];
 </script>
 
 <template>
@@ -36,6 +33,4 @@ const rules = [
   </v-row>
 </template>
 
-<style scoped lang="sass">
-
-</style>
+<style scoped lang="sass"></style>
