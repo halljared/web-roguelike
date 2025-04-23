@@ -1,28 +1,37 @@
 import { z } from 'zod';
-import { Modifiable } from '@/models/Modifiable';
 import { SerializedModifierSchema } from './schemas';
 import { ModifierType, ModifiableTag, ModifierRarity } from './types';
 import type { IModifier, IModifierOptions } from '@/models/interfaces/IModifier';
 
-export class Modifier extends Modifiable implements IModifier {
-  public modifierType: ModifierType;
-  public target: ModifiableTag;
-  public rarity: ModifierRarity;
+export function createModifier(options: IModifierOptions = {}): IModifier {
+  const {
+    id = crypto.randomUUID(),
+    name = '',
+    description = '',
+    baseVal = 0,
+    tags = [],
+    parentId = '',
+    modifierType = ModifierType.ADDITIVE,
+    target = ModifiableTag.STRENGTH,
+    rarity = ModifierRarity.COMMON,
+  } = options;
 
-  constructor(options: IModifierOptions = {}) {
-    super(options);
-    const {
-      modifierType = ModifierType.ADDITIVE,
-      target = ModifiableTag.STRENGTH,
-      rarity = ModifierRarity.COMMON,
-    } = options;
-    this.modifierType = modifierType;
-    this.target = target;
-    this.rarity = rarity;
-  }
+  return {
+    id,
+    name,
+    description,
+    baseVal,
+    tags,
+    parentId,
+    modifierType,
+    target,
+    rarity,
+  };
+}
 
-  public static serialize(modifier: Modifier): string {
-    const constructorOptions: IModifierOptions = {
+export const ModifierUtils = {
+  serialize(modifier: IModifier): string {
+    const modifierOptions: IModifierOptions = {
       id: modifier.id,
       name: modifier.name,
       description: modifier.description,
@@ -34,24 +43,24 @@ export class Modifier extends Modifiable implements IModifier {
       rarity: modifier.rarity,
     };
 
-    return JSON.stringify(constructorOptions);
-  }
+    return JSON.stringify(modifierOptions);
+  },
 
-  public static deserialize(input: string): Modifier | undefined {
+  deserialize(input: string): IModifier | undefined {
     try {
       const parsed = SerializedModifierSchema.parse(JSON.parse(input));
-      return new Modifier(parsed);
+      return createModifier(parsed);
     } catch (e) {
       console.error('Error deserializing modifier:', e);
       return undefined;
     }
-  }
+  },
 
-  public static copy(modifier: Modifier, preserveId?: boolean): Modifier {
-    const copiedModifier = Modifier.deserialize(Modifier.serialize(modifier)) as Modifier;
+  copy(modifier: IModifier, preserveId?: boolean): IModifier {
+    const copiedModifier = this.deserialize(this.serialize(modifier)) as IModifier;
     if (!preserveId) {
       copiedModifier.id = crypto.randomUUID();
     }
     return copiedModifier;
-  }
-}
+  },
+};

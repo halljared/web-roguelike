@@ -1,11 +1,10 @@
 <script setup lang="ts">
-import { Modifiable } from "@/models/Modifiable";
-import { ModifiableTag } from "@/models/types";
+  import type { IModifiable } from '@/models/interfaces/IModifiable';
+  import { ModifiableTag } from '@/models/types';
 
-
-const modifiable = defineModel<Modifiable>('modifiable', {
-  required: true,
-});
+  const modifiable = defineModel<IModifiable>('modifiable', {
+    required: true,
+  });
 </script>
 
 <template>
@@ -31,6 +30,4 @@ const modifiable = defineModel<Modifiable>('modifiable', {
   </v-row>
 </template>
 
-<style scoped lang="sass">
-
-</style>
+<style scoped lang="sass"></style>

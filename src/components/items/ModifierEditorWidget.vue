@@ -1,10 +1,10 @@
 <script setup lang="ts">
-  import { Modifier } from '@/models/Modifier';
+  import { createModifier } from '@/models/Modifier';
+  import type { IModifier } from '@/models/interfaces/IModifier';
   import { ModifiableTag, ModifierType, ModifierRarity } from '@/models/types';
 
-  const modifier = defineModel('modifier', {
-    type: Modifier,
-    default: new Modifier(),
+  const modifier = defineModel<IModifier>('modifier', {
+    default: () => createModifier(),
   });
 
   const props = defineProps({

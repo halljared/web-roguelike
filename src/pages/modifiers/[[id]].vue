@@ -1,5 +1,6 @@
 <script setup lang="ts">
-  import { Modifier } from '@/models/Modifier';
+  import { createModifier, ModifierUtils } from '@/models/Modifier';
+  import type { IModifier } from '@/models/interfaces/IModifier';
   import { useModifierTemplateStore } from '@/stores/modifierTemplateStore';
 
   const router = useRouter();
@@ -8,21 +9,21 @@
   const modifierStore = useModifierTemplateStore();
   let _modifier = modifierStore.getModifierById(id);
   if (_modifier) {
-    _modifier = Modifier.copy(_modifier, true);
+    _modifier = ModifierUtils.copy(_modifier, true);
   } else {
-    _modifier = new Modifier();
+    _modifier = createModifier();
   }
   let modifier = ref(_modifier);
   const isValid = ref(false);
 
   const isNew = computed(() => {
-    return !modifierStore.getModifierById(modifier.value.id);
+    return !modifierStore.getModifierById(modifier.value.id as string);
   });
 
   function save() {
     if (isValid.value) {
       modifierStore.setModifier(modifier.value);
-      modifier = ref(Modifier.copy(modifier.value));
+      modifier = ref(ModifierUtils.copy(modifier.value));
       router.back();
     }
   }

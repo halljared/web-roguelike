@@ -1,7 +1,8 @@
-import { type IModifiableGroupOptions, ModifiableGroup } from '@/models/ModifiableGroup';
-import { Attribute } from '@/models/modifiables/Attribute';
-import { Modifier } from '@/models/Modifier';
-import type { Modifiable } from './Modifiable';
+import { ModifiableGroup } from '@/models/ModifiableGroup';
+import { createAttribute } from '@/models/modifiables/Attribute';
+import { createModifier } from '@/models/Modifier';
+import type { IModifiable } from '@/models/interfaces/IModifiable';
+import type { IModifiableGroupOptions } from '@/models/interfaces/IModifiableGroup';
 
 export class Item extends ModifiableGroup {
   constructor(baseOpts?: IModifiableGroupOptions) {
@@ -22,8 +23,8 @@ export class Item extends ModifiableGroup {
         const base = deserializedItem.base;
         const baseOpts = {
           ...base, // Copy all properties from deserializedItem.base
-          attributes: base.attributes.map((attr) => new Attribute(attr)),
-          modifiers: base.modifiers.map((mod) => new Modifier(mod)),
+          attributes: base.attributes.map((attr) => createAttribute(attr)),
+          modifiers: base.modifiers.map((mod) => createModifier(mod)),
         };
         item = new Item(baseOpts);
       }

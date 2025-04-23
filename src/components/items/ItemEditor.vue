@@ -1,7 +1,7 @@
 <script setup lang="ts">
   import { Item } from '@/models/Item';
-  import { Attribute } from '@/models/modifiables/Attribute';
-  import { Modifier } from '@/models/Modifier';
+  import { createAttribute } from '@/models/modifiables/Attribute';
+  import { createModifier } from '@/models/Modifier';
 
   const item = defineModel('item', {
     type: Item,
@@ -9,11 +9,11 @@
   });
 
   function newAttribute() {
-    item.value.attributes.push(new Attribute());
+    item.value.attributes.push(createAttribute());
   }
 
   function newModifier() {
-    item.value.modifiers.push(new Modifier());
+    item.value.modifiers.push(createModifier());
   }
 </script>
 

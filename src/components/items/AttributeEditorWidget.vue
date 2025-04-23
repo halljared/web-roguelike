@@ -1,9 +1,9 @@
 <script setup lang="ts">
-  import { Attribute } from '@/models/modifiables/Attribute';
+  import { createAttribute } from '@/models/modifiables/Attribute';
+  import type { IAttribute } from '@/models/interfaces/IAttribute';
 
-  const attribute = defineModel('attribute', {
-    type: Attribute,
-    default: new Attribute(),
+  const attribute = defineModel<IAttribute>('attribute', {
+    default: () => createAttribute(),
   });
 </script>
 

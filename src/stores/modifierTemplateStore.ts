@@ -1,13 +1,14 @@
 import { defineStore } from 'pinia';
 import { ref, computed } from 'vue';
-import { Modifier } from '@/models/Modifier';
+import { createModifier } from '@/models/Modifier';
 import { ModifierRarity, ModifierType, ModifiableTag } from '@/models/types';
+import type { IModifier } from '@/models/interfaces/IModifier';
 
 export const useModifierTemplateStore = defineStore('modifierTemplateStore', () => {
   // State: Store items in a Map for quick access by id
-  const modifiers = ref<Map<string, Modifier>>(new Map());
+  const modifiers = ref<Map<string, IModifier>>(new Map());
   const initialModifiers = [
-    new Modifier({
+    createModifier({
       name: 'Strength Boost',
       description: 'Increases strength by a small amount',
       baseVal: 5,
@@ -15,7 +16,7 @@ export const useModifierTemplateStore = defineStore('modifierTemplateStore', () 
       target: ModifiableTag.STRENGTH,
       rarity: ModifierRarity.COMMON,
     }),
-    new Modifier({
+    createModifier({
       name: 'Agility Boost',
       description: 'Increases agility by a small amount',
       baseVal: 5,
@@ -23,7 +24,7 @@ export const useModifierTemplateStore = defineStore('modifierTemplateStore', () 
       target: ModifiableTag.HEALTH,
       rarity: ModifierRarity.COMMON,
     }),
-    new Modifier({
+    createModifier({
       name: 'Intelligence Boost',
       description: 'Increases intelligence by a small amount',
       baseVal: 5,
@@ -31,7 +32,7 @@ export const useModifierTemplateStore = defineStore('modifierTemplateStore', () 
       target: ModifiableTag.MANA,
       rarity: ModifierRarity.COMMON,
     }),
-    new Modifier({
+    createModifier({
       name: 'Rare Strength Boost',
       description: 'Significantly increases strength',
       baseVal: 15,
@@ -41,7 +42,9 @@ export const useModifierTemplateStore = defineStore('modifierTemplateStore', () 
     }),
   ];
   initialModifiers.forEach((modifier) => {
-    modifiers.value.set(modifier.id, modifier);
+    if (modifier.id) {
+      modifiers.value.set(modifier.id, modifier);
+    }
   });
 
   // Getters
@@ -53,8 +56,10 @@ export const useModifierTemplateStore = defineStore('modifierTemplateStore', () 
   });
 
   // Actions
-  function setModifier(modifier: Modifier): void {
-    modifiers.value.set(modifier.id, modifier);
+  function setModifier(modifier: IModifier): void {
+    if (modifier.id) {
+      modifiers.value.set(modifier.id, modifier);
+    }
   }
   function removeModifier(modifierId: string) {
     modifiers.value.delete(modifierId);
