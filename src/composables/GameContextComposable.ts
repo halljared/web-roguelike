@@ -1,5 +1,5 @@
 import { GameContext } from '@/models/GameContext';
-import { usePlaygroundStore } from '@/stores/playground';
+import { usePlaygroundStore } from '@/stores/playgroundStore';
 
 let gameContextInstance: GameContext | null = null;
 
