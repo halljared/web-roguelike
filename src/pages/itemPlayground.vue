@@ -2,12 +2,22 @@
   import { useItemStore } from '@/stores/itemStore';
   import { useGameContext } from '@/composables/GameContextComposable';
   import type { IItem } from '@/models/interfaces/IItem';
+  import ItemEditor from '@/components/items/ItemEditor.vue';
+
   const { playgroundStore } = useGameContext();
   const itemStore = useItemStore();
   const items = itemStore.list();
 
+  const editingItem = ref<IItem | null>(null);
+  const dialog = ref(false);
+
   function copyItem(item: IItem) {
     playgroundStore.addCopy(item);
+  }
+
+  function editCopy(item: IItem) {
+    editingItem.value = item;
+    dialog.value = true;
   }
 </script>
 
@@ -106,6 +116,13 @@
                     variant="text"
                     @click="playgroundStore.removeCopy(copy.id)"
                   />
+                  <v-btn
+                    icon="mdi-pencil"
+                    size="small"
+                    color="warning"
+                    variant="text"
+                    @click="editCopy(copy)"
+                  />
                 </template>
 
                 <v-list-item-title>{{ copy.name }}</v-list-item-title>
@@ -185,6 +202,30 @@
           </v-sheet>
         </v-col>
       </v-row>
+      <v-dialog
+        v-model="dialog"
+        max-width="800px"
+      >
+        <v-card>
+          <v-card-title>
+            <span class="headline">Edit Item</span>
+          </v-card-title>
+          <v-card-text>
+            <ItemEditor
+              v-if="editingItem"
+              v-model:item="editingItem"
+            />
+          </v-card-text>
+          <v-card-actions>
+            <v-spacer />
+            <v-btn
+              color="blue darken-1"
+              @click="dialog = false"
+              >Close</v-btn
+            >
+          </v-card-actions>
+        </v-card>
+      </v-dialog>
     </v-responsive>
   </v-container>
 </template>
