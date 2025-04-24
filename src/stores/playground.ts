@@ -1,7 +1,7 @@
 import { defineStore } from 'pinia';
 import { ref, computed } from 'vue';
-import type { Item } from '@/models/Item';
-import type { Modifier } from '@/models/Modifier';
+import type { IItem } from '@/models/interfaces/IItem';
+import type { IModifier } from '@/models/interfaces/IModifier';
 import { Playground } from '@/models/Playground';
 import type { IGenerateItemOptions } from '@/models/types';
 
@@ -21,7 +21,7 @@ export const usePlaygroundStore = defineStore('playgroundStore', () => {
     model.value = playground;
   }
 
-  function addCopy(item: Item): void {
+  function addCopy(item: IItem): void {
     model.value?.addCopy(item);
   }
 
@@ -33,11 +33,11 @@ export const usePlaygroundStore = defineStore('playgroundStore', () => {
     model.value?.clearCopies();
   }
 
-  function getItemModifiers(item: Item): Set<Modifier> {
+  function getItemModifiers(item: IItem): Set<IModifier> {
     return model.value?.getModifiedBy(item) ?? new Set();
   }
 
-  function getModifiedBy(item: Item): Set<Modifier> {
+  function getModifiedBy(item: IItem): Set<IModifier> {
     return model.value?.getModifiedBy(item) ?? new Set();
   }
 
