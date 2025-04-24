@@ -1,10 +1,37 @@
 import { defineStore } from 'pinia';
 import { ref, computed } from 'vue';
 import type { IItem } from '@/models/interfaces/IItem';
-
+import { createItem } from '@/models/Item';
+import { createModifier } from '@/models/Modifier';
+import { ModifiableTag } from '@/models/types';
 export const useItemStore = defineStore('itemStore', () => {
   // State: Store items in a Map for quick access by id
   const items = ref<Map<string, IItem>>(new Map());
+
+  const initialItems = [
+    createItem({
+      name: 'Sword',
+      description: 'A basic sword',
+      modifiers: [
+        createModifier({
+          name: 'Damage',
+          tags: [ModifiableTag.HEALTH],
+          target: ModifiableTag.MANA,
+        }),
+      ],
+    }),
+    createItem({
+      name: 'Potion',
+      description: 'A basic potion',
+      modifiers: [
+        createModifier({ name: 'Heal', tags: [ModifiableTag.MANA], target: ModifiableTag.HEALTH }),
+      ],
+    }),
+  ];
+
+  initialItems.forEach((item) => {
+    setItem(item);
+  });
 
   // Getters
   const getItemById = computed(() => (id: string) => {
