@@ -19,11 +19,11 @@ declare module 'vue-router/auto-routes' {
    */
   export interface RouteNamedMap {
     '/': RouteRecordInfo<'/', '/', Record<never, never>, Record<never, never>>,
+    '/itemPlayground': RouteRecordInfo<'/itemPlayground', '/itemPlayground', Record<never, never>, Record<never, never>>,
     '/items/[[id]]': RouteRecordInfo<'/items/[[id]]', '/items/:id?', { id?: ParamValueZeroOrOne<true> }, { id?: ParamValueZeroOrOne<false> }>,
     '/items/list': RouteRecordInfo<'/items/list', '/items/list', Record<never, never>, Record<never, never>>,
     '/modifiers/[[id]]': RouteRecordInfo<'/modifiers/[[id]]', '/modifiers/:id?', { id?: ParamValueZeroOrOne<true> }, { id?: ParamValueZeroOrOne<false> }>,
     '/modifiers/list': RouteRecordInfo<'/modifiers/list', '/modifiers/list', Record<never, never>, Record<never, never>>,
-    '/modifiers/playground': RouteRecordInfo<'/modifiers/playground', '/modifiers/playground', Record<never, never>, Record<never, never>>,
-    '/playground': RouteRecordInfo<'/playground', '/playground', Record<never, never>, Record<never, never>>,
+    '/modifiers/modifierPlayground': RouteRecordInfo<'/modifiers/modifierPlayground', '/modifiers/modifierPlayground', Record<never, never>, Record<never, never>>,
   }
 }
