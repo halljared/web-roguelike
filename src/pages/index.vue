@@ -46,7 +46,7 @@
             </router-link>
             <router-link
               v-slot="{ navigate }"
-              to="/playground"
+              to="/itemPlayground"
               custom
             >
               <v-btn
@@ -100,7 +100,7 @@
             </router-link>
             <router-link
               v-slot="{ navigate }"
-              to="/modifiers/playground"
+              to="/modifiers/modifierPlayground"
               custom
             >
               <v-btn
