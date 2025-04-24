@@ -1,7 +1,13 @@
-import { ModifiableGroup } from '@/models/ModifiableGroup';
-import { type IModifiableGroupOptions } from '@/models/ModifiableGroup';
-export class Player extends ModifiableGroup {
-  constructor(opts: IModifiableGroupOptions) {
-    super(opts);
-  }
+import { type IPlayer, type IPlayerOptions } from '@/models/interfaces/IPlayer';
+import { createModifiableGroup } from '@/models/ModifiableGroup';
+
+export function createPlayer(options: IPlayerOptions = {}): IPlayer {
+  const player = {
+    ...createModifiableGroup(options),
+  };
+  return player;
 }
+
+export const PlayerUtils = {
+  create: createPlayer,
+};
