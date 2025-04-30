@@ -27,3 +27,7 @@ export abstract class Modifiable implements IModifiable {
     this.parentId = parentId ?? '';
   }
 }
+
+export function createModifiable(options: IModifiableOptions = {}): IModifiable {
+  // TODO: Implement
+}

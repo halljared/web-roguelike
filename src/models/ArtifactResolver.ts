@@ -1,4 +1,4 @@
-import type Artifact from '@/models/modifiables/artifacts/Artifact';
+import type { IArtifact } from '@/models/interfaces/IArtifact';
 import { Playground } from '@/models/Playground';
 export class ArtifactResolver {
   private playground: Playground;
@@ -7,7 +7,7 @@ export class ArtifactResolver {
     this.playground = playground;
   }
 
-  public resolve(artifact: Artifact): void {
+  public resolve(artifact: IArtifact): void {
     try {
       // TODO: Implement actual resolution logic
       // this.playground.doThing(artifact);

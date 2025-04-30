@@ -1,5 +1,5 @@
 import { Subject, filter } from 'rxjs';
-import type Artifact from '@/models/modifiables/artifacts/Artifact';
+import type { IArtifact } from '@/models/interfaces/IArtifact';
 
 export enum ArtifactEventType {
   CREATED = 'CREATED',
@@ -9,10 +9,10 @@ export enum ArtifactEventType {
 
 export interface IArtifactEvent {
   type: ArtifactEventType;
-  artifact: Artifact;
+  artifact: IArtifact;
 }
 
-export type ArtifactCallback = (artifact: Artifact) => void;
+export type ArtifactCallback = (artifact: IArtifact) => void;
 
 export class ArtifactEventService {
   private eventBus = new Subject<IArtifactEvent>();

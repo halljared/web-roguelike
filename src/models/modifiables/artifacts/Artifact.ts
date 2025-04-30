@@ -1,6 +1,6 @@
-import { Modifiable, type IModifiableConstructorOptions } from '@/models/Modifiable';
-import type { ModifiableGroup } from '@/models/ModifiableGroup';
-import type { IArtifactConstructorOptions, IArtifactOptions, ModifiableTag } from '@/models/types';
+import type { IArtifact, IArtifactOptions } from '@/models/interfaces/IArtifact';
+import { createModifiable } from '@/models/Modifiable';
+import { ModifiableTag } from '@/models/types';
 
 /**
  * Artifacts are the output of other game objects whose
@@ -8,15 +8,13 @@ import type { IArtifactConstructorOptions, IArtifactOptions, ModifiableTag } fro
  * them to be transmitted, viewed, and resolved.
  *
  */
-export default class Artifact extends Modifiable implements IArtifactOptions {
-  public targetModifiable: Modifiable | ModifiableGroup;
-  public sourceId: string;
-  public target: ModifiableTag;
-  constructor(options: IArtifactConstructorOptions) {
-    super(options);
-    const { targetModifiable, sourceId, target } = options;
-    this.targetModifiable = targetModifiable;
-    this.sourceId = sourceId;
-    this.target = target;
-  }
+export function createArtifact(options: IArtifactOptions): IArtifact {
+  const { targetModifiableId, sourceId, target } = options;
+  const artifact = {
+    ...createModifiable(options),
+    targetModifiableId: targetModifiableId ?? '',
+    sourceId: sourceId ?? '',
+    target: target ?? ModifiableTag.HEALTH,
+  };
+  return artifact;
 }

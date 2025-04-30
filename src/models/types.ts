@@ -1,6 +1,3 @@
-import type { IModifiableConstructorOptions, Modifiable } from '@/models/Modifiable';
-import type { ModifiableGroup } from '@/models/ModifiableGroup';
-
 export enum ModifiableTag {
   HEALTH = 'HEALTH',
   MANA = 'MANA',
@@ -30,13 +27,3 @@ export interface IGenerateItemOptions {
   modifierOptions: IGenerateModifierOptions;
   numberOfModifiers: number;
 }
-
-export interface IArtifactOptions {
-  targetModifiable: Modifiable | ModifiableGroup;
-  sourceId: string;
-  target: ModifiableTag;
-}
-
-export interface IArtifactConstructorOptions
-  extends IArtifactOptions,
-    IModifiableConstructorOptions {}
