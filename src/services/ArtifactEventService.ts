@@ -15,14 +15,14 @@ export interface IArtifactEvent {
 export type ArtifactCallback = (artifact: IArtifact) => void;
 
 export class ArtifactEventService {
-  private eventBus = new Subject<IArtifactEvent>();
+  private eventBus$ = new Subject<IArtifactEvent>();
 
   emit(event: IArtifactEvent): void {
-    this.eventBus.next(event);
+    this.eventBus$.next(event);
   }
 
   on(type: ArtifactEventType, callback: ArtifactCallback): () => void {
-    const subscription = this.eventBus
+    const subscription = this.eventBus$
       .pipe(filter((event) => event.type === type))
       .subscribe((event) => callback(event.artifact));
 
@@ -30,7 +30,7 @@ export class ArtifactEventService {
   }
 
   all(callback: ArtifactCallback): () => void {
-    const subscription = this.eventBus.subscribe((event) => callback(event.artifact));
+    const subscription = this.eventBus$.subscribe((event) => callback(event.artifact));
     return () => subscription.unsubscribe();
   }
 }

@@ -1,27 +1,17 @@
+import { createModifiable } from '@/models/Modifiable';
 import { SerializedModifierSchema } from './schemas';
 import { ModifierType, ModifiableTag, ModifierRarity } from './types';
 import type { IModifier, IModifierOptions } from '@/models/interfaces/IModifier';
 
 export function createModifier(options: IModifierOptions = {}): IModifier {
   const {
-    id = crypto.randomUUID(),
-    name = '',
-    description = '',
-    baseVal = 0,
-    tags = [],
-    parentId = '',
     modifierType = ModifierType.ADDITIVE,
     target = ModifiableTag.STRENGTH,
     rarity = ModifierRarity.COMMON,
   } = options;
 
   return {
-    id,
-    name,
-    description,
-    baseVal,
-    tags,
-    parentId,
+    ...createModifiable(options),
     modifierType,
     target,
     rarity,

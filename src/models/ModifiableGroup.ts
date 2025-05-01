@@ -1,9 +1,7 @@
 import { z } from 'zod';
 import type { IModifiable } from '@/models/interfaces/IModifiable';
-import type { IModifier } from '@/models/interfaces/IModifier';
 import type { IModifiableGroup } from '@/models/interfaces/IModifiableGroup';
 import { SerializedModifiableGroupSchema } from './schemas';
-import type { IAttribute } from '@/models/interfaces/IAttribute';
 import type {
   IModifiableGroupDeserialized,
   IModifiableGroupOptions,
@@ -23,7 +21,6 @@ export function createModifiableGroup(options: IModifiableGroupOptions = {}): IM
 
 export const ModifiableGroupUtils = {
   deserializeBase(obj: object): IModifiableGroupDeserialized | undefined {
-    let item: IModifiableGroupDeserialized | undefined = undefined;
     try {
       const parsed = SerializedModifiableGroupSchema.parse(obj);
       return parsed;
