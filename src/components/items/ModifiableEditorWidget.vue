@@ -5,6 +5,13 @@
   const modifiable = defineModel<IModifiable>('modifiable', {
     required: true,
   });
+  const emit = defineEmits<{
+    (e: 'update:modifiable', modifiable: IModifiable): void;
+  }>();
+
+  function onChange() {
+    emit('update:modifiable', modifiable.value);
+  }
 </script>
 
 <template>
@@ -16,6 +23,7 @@
         outlined
         type="number"
         step="1"
+        @change="onChange"
       />
     </v-col>
     <v-col cols="6">
@@ -25,6 +33,7 @@
         label="Tags"
         multiple
         outlined
+        @update:modelValue="onChange"
       />
     </v-col>
   </v-row>

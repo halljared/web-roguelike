@@ -3,22 +3,75 @@
   import { useGameContext } from '@/composables/GameContextComposable';
   import type { IItem } from '@/models/interfaces/IItem';
   import ItemEditor from '@/components/items/ItemEditor.vue';
+  import {
+    useModifiableEventService,
+    ModifiableEventType,
+  } from '@/services/ModifiableEventService';
 
   const { playgroundStore } = useGameContext();
   const itemStore = useItemStore();
+  const modifiableEventService = useModifiableEventService();
   const items = itemStore.list();
 
   const editingItem = ref<IItem | null>(null);
   const dialog = ref(false);
+  const logMessages = ref<string[]>([]);
 
+  /**
+   * Creates a copy of the selected item and adds it to the playground
+   * @param {IItem} item - The item to copy
+   */
   function copyItem(item: IItem) {
-    playgroundStore.addCopy(item);
+    const copy = playgroundStore.addCopy(item);
   }
 
+  /**
+   * Opens the edit dialog for the selected item
+   * @param {IItem} item - The item to edit
+   */
   function editCopy(item: IItem) {
     editingItem.value = item;
     dialog.value = true;
   }
+
+  /**
+   * Saves the edited item and emits an update event
+   */
+  function saveEdit() {
+    dialog.value = false;
+  }
+
+  /**
+   * Removes an item and emits a delete event
+   * @param {string} id - The ID of the item to remove
+   */
+  function removeItem(id: string) {
+    playgroundStore.removeCopy(id);
+  }
+
+  // Register global listeners for debugging purposes
+  onMounted(() => {
+    const unsubscribeCreated = modifiableEventService.on(
+      ModifiableEventType.CREATED,
+      (modifiable) => console.log('ModifiableEvent CREATED:', modifiable)
+    );
+
+    const unsubscribeUpdated = modifiableEventService.on(
+      ModifiableEventType.UPDATED,
+      (modifiable) => console.log('ModifiableEvent UPDATED:', modifiable)
+    );
+
+    const unsubscribeDeleted = modifiableEventService.on(
+      ModifiableEventType.DELETED,
+      (modifiable) => console.log('ModifiableEvent DELETED:', modifiable)
+    );
+
+    onUnmounted(() => {
+      unsubscribeCreated();
+      unsubscribeUpdated();
+      unsubscribeDeleted();
+    });
+  });
 </script>
 
 <template>
@@ -114,7 +167,7 @@
                     size="small"
                     color="error"
                     variant="text"
-                    @click="playgroundStore.removeCopy(copy.id)"
+                    @click="removeItem(copy.fake)"
                   />
                   <v-btn
                     icon="mdi-pencil"
@@ -202,6 +255,52 @@
           </v-sheet>
         </v-col>
       </v-row>
+
+      <v-row class="mt-4">
+        <v-col>
+          <v-sheet
+            class="pa-4"
+            rounded
+            elevation="2"
+          >
+            <div class="d-flex align-center mb-2">
+              <h2>Event Log</h2>
+              <v-spacer></v-spacer>
+              <v-btn
+                size="small"
+                color="grey"
+                variant="text"
+                @click="logMessages = []"
+              >
+                Clear
+              </v-btn>
+            </div>
+            <v-divider class="mb-4" />
+
+            <v-list
+              v-if="logMessages.length"
+              lines="one"
+              density="compact"
+              class="log-container"
+            >
+              <v-list-item
+                v-for="(log, index) in logMessages"
+                :key="index"
+                class="log-item"
+              >
+                {{ log }}
+              </v-list-item>
+            </v-list>
+            <p
+              v-else
+              class="text-subtitle-1"
+            >
+              No events logged yet
+            </p>
+          </v-sheet>
+        </v-col>
+      </v-row>
+
       <v-dialog
         v-model="dialog"
         max-width="800px"
@@ -221,7 +320,12 @@
             <v-btn
               color="blue darken-1"
               @click="dialog = false"
-              >Close</v-btn
+              >Cancel</v-btn
+            >
+            <v-btn
+              color="primary"
+              @click="saveEdit"
+              >Save</v-btn
             >
           </v-card-actions>
         </v-card>
@@ -233,4 +337,16 @@
 <style scoped lang="sass">
   h2
     margin-bottom: 16px
+
+  .log-container
+    max-height: 200px
+    overflow-y: auto
+    border: 1px solid rgba(0, 0, 0, 0.12)
+    border-radius: 4px
+
+  .log-item
+    border-bottom: 1px solid rgba(0, 0, 0, 0.08)
+
+    &:last-child
+      border-bottom: none
 </style>
