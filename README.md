@@ -1,3 +1,10 @@
+## Node and npm
+
+Versions are likely flexible within major releases:
+
+- Node version: ^23.8.0
+- npm version: ^11.3.0
+
 ## Setup
 
 To run the code:
