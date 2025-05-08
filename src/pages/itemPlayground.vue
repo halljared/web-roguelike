@@ -167,7 +167,7 @@
                     size="small"
                     color="error"
                     variant="text"
-                    @click="removeItem(copy.fake)"
+                    @click="removeItem(copy.id)"
                   />
                   <v-btn
                     icon="mdi-pencil"
