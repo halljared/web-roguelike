@@ -13,6 +13,14 @@
       default: true,
     },
   });
+
+  const emit = defineEmits<{
+    (e: 'update:modifier', modifier: IModifier): void;
+  }>();
+
+  function handleModifierUpdate() {
+    emit('update:modifier', modifier.value);
+  }
 </script>
 
 <template>
@@ -22,7 +30,10 @@
     class="mb-3"
   />
   <game-object-editor :object="modifier" />
-  <modifiable-editor-widget :modifiable="modifier" />
+  <modifiable-editor-widget
+    :modifiable="modifier"
+    @update:modifiable="handleModifierUpdate"
+  />
   <v-row>
     <v-col cols="6">
       <v-select
@@ -30,6 +41,7 @@
         :items="Object.values(ModifierType)"
         label="Scaling Type"
         outlined
+        @update:model-value="handleModifierUpdate"
       />
     </v-col>
     <v-col cols="6">
@@ -38,6 +50,7 @@
         :items="Object.values(ModifiableTag)"
         label="Target"
         outlined
+        @update:model-value="handleModifierUpdate"
       />
     </v-col>
   </v-row>
@@ -48,6 +61,7 @@
         :items="Object.values(ModifierRarity)"
         label="Rarity"
         outlined
+        @update:model-value="handleModifierUpdate"
       />
     </v-col>
   </v-row>
