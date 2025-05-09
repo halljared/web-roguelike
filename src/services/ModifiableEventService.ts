@@ -1,5 +1,6 @@
 import { Subject, filter } from 'rxjs';
-import type { IModifiable } from '@/models/interfaces/IModifiable';
+import type { IAttribute } from '@/models/interfaces/IAttribute';
+import type { IModifier } from '@/models/interfaces/IModifier';
 
 export enum ModifiableEventType {
   CREATED = 'CREATED',
@@ -7,12 +8,14 @@ export enum ModifiableEventType {
   DELETED = 'DELETED',
 }
 
+export type ModifiableData = IAttribute | IModifier;
+
 export interface IModifiableEvent {
   type: ModifiableEventType;
-  modifiable: IModifiable;
+  modifiable: ModifiableData;
 }
 
-export type ModifiableCallback = (modifiable: IModifiable) => void;
+export type ModifiableCallback = (data: ModifiableData) => void;
 
 export class ModifiableEventService {
   private eventBus$ = new Subject<IModifiableEvent>();
