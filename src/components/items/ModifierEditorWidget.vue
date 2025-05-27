@@ -2,6 +2,7 @@
   import { createModifier } from '@/models/Modifier';
   import type { IModifier } from '@/models/interfaces/IModifier';
   import { ModifiableTag, ModifierType, ModifierRarity } from '@/models/types';
+  import { watch } from 'vue';
 
   const modifier = defineModel<IModifier>('modifier', {
     default: () => createModifier(),
@@ -18,7 +19,23 @@
     (e: 'update:modifier', modifier: IModifier): void;
   }>();
 
-  function handleModifierUpdate() {
+  // Watch specific properties instead of manual event handlers
+  watch(
+    [
+      () => modifier.value.modifierType,
+      () => modifier.value.target,
+      () => modifier.value.rarity,
+      // Watch baseVal and tags from the modifiable properties
+      () => modifier.value.baseVal,
+      () => modifier.value.tags,
+    ],
+    () => {
+      emit('update:modifier', modifier.value);
+    }
+  );
+
+  // If you want to handle modifiable updates from child component
+  function handleModifiableUpdate() {
     emit('update:modifier', modifier.value);
   }
 </script>
@@ -32,7 +49,7 @@
   <game-object-editor :object="modifier" />
   <modifiable-editor-widget
     :modifiable="modifier"
-    @update:modifiable="handleModifierUpdate"
+    @update:modifiable="handleModifiableUpdate"
   />
   <v-row>
     <v-col cols="6">
@@ -41,7 +58,6 @@
         :items="Object.values(ModifierType)"
         label="Scaling Type"
         outlined
-        @update:model-value="handleModifierUpdate"
       />
     </v-col>
     <v-col cols="6">
@@ -50,7 +66,6 @@
         :items="Object.values(ModifiableTag)"
         label="Target"
         outlined
-        @update:model-value="handleModifierUpdate"
       />
     </v-col>
   </v-row>
@@ -61,10 +76,7 @@
         :items="Object.values(ModifierRarity)"
         label="Rarity"
         outlined
-        @update:model-value="handleModifierUpdate"
       />
     </v-col>
   </v-row>
 </template>
-
-<style scoped lang="sass"></style>
