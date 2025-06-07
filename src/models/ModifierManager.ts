@@ -1,5 +1,7 @@
 import type { IModifier } from '@/models/interfaces/IModifier';
 import type { IModifiable } from '@/models/interfaces/IModifiable';
+import { ModifiableEventType } from '@/services/ModifiableEventService';
+import { useModifiableEventService } from '@/services/ModifiableEventService';
 
 export type ConditionFunction = (modifiable: IModifiable, modifier: IModifier) => boolean;
 
@@ -16,6 +18,42 @@ export class ModifierManager {
   private allModifiables = new Set<IModifiable>();
   private allModifiers = new Set<IModifier>();
   private matchers = [defaultMatcher];
+  private subscriptions: (() => void)[] = [];
+
+  constructor(matchers: ConditionFunction[] = [defaultMatcher]) {
+    this.matchers = matchers;
+    const eventService = useModifiableEventService();
+
+    this.subscriptions = [
+      eventService.on(ModifiableEventType.CREATED, (modifiableData) => {
+        if ('modifierType' in modifiableData) {
+          this.registerModifier(modifiableData);
+        } else {
+          this.registerModifiable(modifiableData);
+        }
+      }),
+      eventService.on(ModifiableEventType.UPDATED, (modifiableData) => {
+        if ('modifierType' in modifiableData) {
+          this.removeModifier(modifiableData);
+          this.registerModifier(modifiableData);
+        } else {
+          this.removeModifiable(modifiableData);
+          this.registerModifiable(modifiableData);
+        }
+      }),
+      eventService.on(ModifiableEventType.DELETED, (modifiableData) => {
+        if ('modifierType' in modifiableData) {
+          this.removeModifier(modifiableData);
+        } else {
+          this.removeModifiable(modifiableData);
+        }
+      }),
+    ];
+  }
+
+  destroy(): void {
+    this.subscriptions.forEach((subscription) => subscription());
+  }
 
   // Generic remove method to handle both modifiable and modifier removal
   private removeItem<T extends IModifiable | IModifier>(
@@ -51,6 +89,8 @@ export class ModifierManager {
       this.modifierToModifiables,
       this.modifiableToModifiers
     );
+    // also remove from modifiables since modifiers are also modifiables
+    this.removeModifiable(modifier);
   }
 
   registerModifiable(modifiable: IModifiable): void {
@@ -71,6 +111,8 @@ export class ModifierManager {
         }
       });
     }
+    // also register as a modifiable since modifiers are also modifiables
+    this.registerModifiable(modifier);
   }
 
   matches(modifiable: IModifiable, modifier: IModifier): boolean {

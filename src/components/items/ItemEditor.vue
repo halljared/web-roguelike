@@ -25,7 +25,7 @@
     item.value.attributes.push(attribute);
     modifiableEventService.emit({
       type: ModifiableEventType.CREATED,
-      modifiable: attribute,
+      modifiable: toRaw(attribute),
     });
   }
 
@@ -34,7 +34,7 @@
     item.value.modifiers.push(modifier);
     modifiableEventService.emit({
       type: ModifiableEventType.CREATED,
-      modifiable: modifier,
+      modifiable: toRaw(modifier),
     });
   }
 
@@ -42,14 +42,14 @@
   function updateAttribute(attribute: IAttribute) {
     modifiableEventService.emit({
       type: ModifiableEventType.UPDATED,
-      modifiable: attribute,
+      modifiable: toRaw(attribute),
     });
   }
 
   function updateModifier(modifier: IModifier) {
     modifiableEventService.emit({
       type: ModifiableEventType.UPDATED,
-      modifiable: modifier,
+      modifiable: toRaw(modifier),
     });
   }
 </script>

@@ -53,7 +53,6 @@ export class ItemFactory {
       modifier.parentId = item.id;
       item.name = modifier.name;
       item.modifiers.push(modifier);
-      modifierManager.registerModifiable(modifier);
       modifierManager.registerModifier(modifier);
     });
     return item;
