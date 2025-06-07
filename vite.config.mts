@@ -58,7 +58,7 @@ export default defineConfig({
   test: {
     globals: true,
     environment: 'jsdom',
-    setupFiles: './src/test/setupTests.ts',
+    setupFiles: './test/setupTests.ts',
   },
   define: { 'process.env': {} },
   resolve: {

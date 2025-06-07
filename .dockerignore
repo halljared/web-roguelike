@@ -1,0 +1,14 @@
+*
+!eslint.config.ts
+!index.html
+!package-lock.json
+!package.json
+!public
+!run_tests.sh
+!src
+!test
+!vite.config.mts
+!tsconfig.app.json
+!tsconfig.json
+!tsconfig.node.json
+!env.d.ts

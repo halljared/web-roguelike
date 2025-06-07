@@ -1,10 +1,10 @@
 import { describe, it, expect, beforeEach } from 'vitest';
-import { ModifierManager } from '@/models/ModifierManager';
-import { createModifiable } from '@/models/Modifiable';
-import { createModifier } from '@/models/Modifier';
-import { ModifiableTag, ModifierType, ModifierRarity } from '@/models/types';
-import type { IModifiable } from '@/models/interfaces/IModifiable';
-import type { IModifier } from '@/models/interfaces/IModifier';
+import { ModifierManager } from '../src/models/ModifierManager';
+import { createModifiable } from '../src/models/Modifiable';
+import { createModifier } from '../src/models/Modifier';
+import { ModifiableTag, ModifierType, ModifierRarity } from '../src/models/types';
+import type { IModifiable } from '../src/models/interfaces/IModifiable';
+import type { IModifier } from '../src/models/interfaces/IModifier';
 
 describe('ModifierManager', () => {
   let manager: ModifierManager;
