@@ -28,10 +28,20 @@ const ModifierPropertiesSchema = z.object({
 // Create full ModifierSchema by merging
 export const ModifierSchema = IModifiableOptionsSchema.merge(ModifierPropertiesSchema);
 
+const ArtifactsSchema = z.record(
+  z.nativeEnum(ModifiableTag),
+  z
+    .object({
+      val: z.number(),
+    })
+    .optional()
+);
+
 // Define BaseSchema
 export const BaseSchema = IGameObjectOptionsSchema.extend({
   attributes: z.array(IModifiableOptionsSchema),
   modifiers: z.array(ModifierSchema),
+  artifactConfigs: ArtifactsSchema,
 });
 
 export const SerializedModifiableGroupSchema = z.object({

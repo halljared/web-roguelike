@@ -9,12 +9,13 @@ import type {
 import { createGameObject } from '@/models/GameObject';
 
 export function createModifiableGroup(options: IModifiableGroupOptions = {}): IModifiableGroup {
-  const { attributes, modifiers, parentId } = options;
+  const { attributes, modifiers, artifactConfigs, parentId } = options;
   const modifiableGroup = {
     ...createGameObject(options),
     parentId: parentId ?? '',
     attributes: attributes ?? [],
     modifiers: modifiers ?? [],
+    artifactConfigs: artifactConfigs ?? {},
   };
   return modifiableGroup;
 }

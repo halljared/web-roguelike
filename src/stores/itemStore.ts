@@ -28,6 +28,9 @@ export const useItemStore = defineStore('itemStore', () => {
           target: ModifiableTag.MANA,
         }),
       ],
+      artifactConfigs: {
+        [ModifiableTag.DAMAGE]: { val: 10 },
+      },
     }),
     createItem({
       name: 'Potion',

@@ -9,11 +9,11 @@ import { ModifiableTag } from '@/models/types';
  *
  */
 export function createArtifact(options: IArtifactOptions): IArtifact {
-  const { targetModifiableId, sourceItemId, targetModifiableTag, val } = options;
+  const { targetModifiableGroupId, sourceModifiableGroupId, targetModifiableTag, val } = options;
   const artifact = {
     ...createGameObject(options),
-    targetModifiableId: targetModifiableId ?? '',
-    sourceItemId: sourceItemId ?? '',
+    sourceModifiableGroupId: sourceModifiableGroupId ?? '',
+    targetModifiableGroupId: targetModifiableGroupId ?? '',
     targetModifiableTag: targetModifiableTag ?? ModifiableTag.HEALTH,
     val: val ?? 0,
   };

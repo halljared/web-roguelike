@@ -22,7 +22,7 @@
    * @param {IItem} item - The item to copy
    */
   function copyItem(item: IItem) {
-    const copy = playgroundStore.addCopy(item);
+    playgroundStore.addCopy(item);
   }
 
   /**
