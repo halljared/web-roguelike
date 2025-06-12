@@ -4,6 +4,7 @@ import type { IItem } from '@/models/interfaces/IItem';
 import { createItem } from '@/models/Item';
 import { createModifier } from '@/models/Modifier';
 import { ModifiableTag } from '@/models/types';
+import { createAttribute } from '@/models/modifiables/Attribute';
 export const useItemStore = defineStore('itemStore', () => {
   // State: Store items in a Map for quick access by id
   const items = ref<Map<string, IItem>>(new Map());
@@ -12,6 +13,14 @@ export const useItemStore = defineStore('itemStore', () => {
     createItem({
       name: 'Sword',
       description: 'A basic sword',
+      attributes: [
+        createAttribute({
+          name: 'Damage',
+          description: 'Damage dealt by the item',
+          baseVal: 10,
+          tags: [ModifiableTag.DAMAGE],
+        }),
+      ],
       modifiers: [
         createModifier({
           name: 'Damage',

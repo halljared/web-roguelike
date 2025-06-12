@@ -1,5 +1,5 @@
+import { createGameObject } from '@/models/GameObject';
 import type { IArtifact, IArtifactOptions } from '@/models/interfaces/IArtifact';
-import { createModifiable } from '@/models/Modifiable';
 import { ModifiableTag } from '@/models/types';
 
 /**
@@ -9,12 +9,13 @@ import { ModifiableTag } from '@/models/types';
  *
  */
 export function createArtifact(options: IArtifactOptions): IArtifact {
-  const { targetModifiableId, sourceId, target } = options;
+  const { targetModifiableId, sourceItemId, targetModifiableTag, val } = options;
   const artifact = {
-    ...createModifiable(options),
+    ...createGameObject(options),
     targetModifiableId: targetModifiableId ?? '',
-    sourceId: sourceId ?? '',
-    target: target ?? ModifiableTag.HEALTH,
+    sourceItemId: sourceItemId ?? '',
+    targetModifiableTag: targetModifiableTag ?? ModifiableTag.HEALTH,
+    val: val ?? 0,
   };
   return artifact;
 }

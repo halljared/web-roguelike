@@ -38,4 +38,15 @@ export const SerializedModifiableGroupSchema = z.object({
   base: BaseSchema,
 });
 
+export const ItemPropertiesSchema = z.object({
+  targetIds: z.array(z.string()),
+});
+
+export const ItemSchema = BaseSchema.merge(ItemPropertiesSchema);
+
+export const SerializedItemSchema = z.object({
+  base: BaseSchema,
+  itemProperties: ItemPropertiesSchema,
+});
+
 export const SerializedModifierSchema = ModifierSchema;

@@ -14,6 +14,12 @@ export class Playground {
     return this._selectedCopies;
   }
 
+  public tick(): void {
+    this._selectedCopies.forEach((copy) => {
+      // TODO: Implement tick
+    });
+  }
+
   getModifiedBy(item: IItem): Set<IModifier> {
     const allModifiers = new Set<IModifier>();
 
@@ -28,7 +34,7 @@ export class Playground {
   }
 
   addCopy(item: IItem): void {
-    const copy = ItemFactory.create(item, {
+    const copy = ItemFactory.fromItem(item, {
       modifierManager: this._modifierManager,
     });
     this._selectedCopies.push(copy);

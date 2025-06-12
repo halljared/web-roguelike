@@ -2,6 +2,8 @@ export enum ModifiableTag {
   HEALTH = 'HEALTH',
   MANA = 'MANA',
   STRENGTH = 'STRENGTH',
+  AGILITY = 'AGILITY',
+  DAMAGE = 'DAMAGE',
   // ... other tags
 }
 

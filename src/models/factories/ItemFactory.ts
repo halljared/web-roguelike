@@ -17,7 +17,7 @@ export interface IItemFactoryGenerateOptions extends IItemFactoryCreateOptions {
 }
 
 export class ItemFactory {
-  static create(item: IItem, options: IItemFactoryCreateOptions): IItem {
+  static fromItem(item: IItem, options: IItemFactoryCreateOptions): IItem {
     const { modifierManager, deep = false } = options;
     const newItem = ItemUtils.copy(item, deep);
 
