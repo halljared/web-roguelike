@@ -37,7 +37,6 @@ export class Playground {
     const copy = ItemFactory.fromItem(item, {
       modifierManager: this._modifierManager,
     });
-    console.log(copy);
     this._selectedCopies.push(copy);
   }
 
