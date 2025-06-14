@@ -15,7 +15,7 @@ export function createModifiableGroup(options: IModifiableGroupOptions = {}): IM
     parentId: parentId ?? '',
     attributes: attributes ?? [],
     modifiers: modifiers ?? [],
-    artifactConfigs: artifactConfigs ?? {},
+    artifactConfigs: artifactConfigs ?? [],
   };
   return modifiableGroup;
 }

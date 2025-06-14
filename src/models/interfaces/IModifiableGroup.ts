@@ -7,23 +7,20 @@ import type { ModifiableTag } from '@/models/types';
 
 export interface IArtifactConfig {
   val: number;
+  tag: ModifiableTag;
 }
 
 export interface IModifiableGroup extends IGameObject {
   attributes: IAttribute[];
   modifiers: IModifier[];
-  artifactConfigs: {
-    [key in ModifiableTag]?: IArtifactConfig;
-  };
+  artifactConfigs: IArtifactConfig[];
 }
 
 export interface IModifiableGroupDeserialized {
   base: IGameObjectOptions & {
     attributes: (IGameObjectOptions & IModifiableOptions)[];
     modifiers: (IGameObjectOptions & IModifiableOptions & IModifierOptions)[];
-    artifactConfigs: {
-      [key in ModifiableTag]?: IArtifactConfig;
-    };
+    artifactConfigs: IArtifactConfig[];
   };
 }
 
